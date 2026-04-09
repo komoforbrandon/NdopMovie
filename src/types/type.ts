@@ -8,3 +8,7 @@ export type Movie = {
   vote_average: number;
   genre_ids: number[];
 };
+
+export type SearchProp ={
+  OnSearch: (query: string) => void;
+}

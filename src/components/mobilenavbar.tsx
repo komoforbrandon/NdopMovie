@@ -1,22 +1,28 @@
 import { Link } from "react-router-dom";
-import {
-  HomeIcon,
-  Bookmark,
-  User,
-  Clapperboard,
-  Search,
-  Monitor,
-  X,
-} from "lucide-react";
+import { HomeIcon,Bookmark,User,Clapperboard,Search, Monitor, X,} from "lucide-react";
 import { useState } from "react";
 import ndopflix from "../assets/ndopflix.png";
 import SearchBar from "./search";
 import { ThemeToggle, useTheme } from "./theme";
+import { useSearchParams,useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { FetchtmdbData } from "../service/api";
 
 export default function MobileNavbar() {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [activeitem, setActiveItem] = useState("home");
   const [showSearch, setShowSearch] = useState(false);
   const { isDark, toggleTheme } = useTheme();
+
+  const searchTerm = searchParams.get("query") || "";
+
+  const handleSearch = (term: string) => {
+    if (searchTerm.trim() !== "") {
+      navigate(`/search?query=${encodeURIComponent(term)}`);
+      setShowSearch(false);
+    }
+  };
 
   const navItems = [
     { id: "home", label: "Home", icon: <HomeIcon />, path: "/" },
@@ -25,6 +31,13 @@ export default function MobileNavbar() {
     { id: "saved", label: "Saved", icon: <Bookmark />, path: "/saved" },
     { id: "profile", label: "Profile", icon: <User />, path: "/profile" },
   ];
+ 
+  const { data: searchResults, isLoading, error } = useQuery({
+    queryKey: ["search", searchTerm],
+    queryFn: () => FetchtmdbData(searchTerm),
+    enabled: !!searchTerm,
+  })
+
   return (
     <>
     <div
@@ -66,7 +79,7 @@ export default function MobileNavbar() {
       </nav>
       {showSearch && (
         <div className="px-4 py-2">
-          <SearchBar />
+          <SearchBar OnSearch={handleSearch} />
         </div>
       )}
     </div>
