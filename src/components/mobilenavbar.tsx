@@ -4,8 +4,8 @@ import {
   Bookmark,
   User,
   Clapperboard,
-  Zap,
   Search,
+  Monitor,
   X,
 } from "lucide-react";
 import { useState } from "react";
@@ -21,7 +21,7 @@ export default function MobileNavbar() {
   const navItems = [
     { id: "home", label: "Home", icon: <HomeIcon />, path: "/" },
     { id: "movies", label: "Movies", icon: <Clapperboard />, path: "/movies" },
-    { id: "anime", label: "Short", icon: <Zap />, path: "/anime" },
+    { id: "anime", label: "TV Show", icon: <Monitor />, path: "/anime" },
     { id: "saved", label: "Saved", icon: <Bookmark />, path: "/saved" },
     { id: "profile", label: "Profile", icon: <User />, path: "/profile" },
   ];

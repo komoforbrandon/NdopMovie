@@ -12,7 +12,7 @@ export default function DesktopNavbar() {
   const navItems = [
     { id: "home", label: "Home",  path: "/" },
     { id: "movies", label: "Movies", path: "/movies" },
-    { id: "anime", label: "Anime", path: "/anime" },
+    { id: "anime", label: "TV Shows", path: "/anime" },
     { id: "saved", label: "Saved", path: "/saved" },
   ];
 

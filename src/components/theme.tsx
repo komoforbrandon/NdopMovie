@@ -22,6 +22,7 @@ const getPreferredTheme = (): Theme => {
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>(getPreferredTheme);
 
