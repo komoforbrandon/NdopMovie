@@ -50,7 +50,7 @@ export default function MovieDetailsCard({
         </button>
 
         {data?.backdrop_path || item.backdrop_path ? (
-          <div className="relative h-64 w-full overflow-hidden">
+          <div className="relative h-64 w-full overflow-hidden md:h-120">
             <img
               src={`${imageBaseUrl}${data?.backdrop_path ?? item.backdrop_path}`}
               alt={title}
@@ -62,9 +62,9 @@ export default function MovieDetailsCard({
 
         <div className="space-y-6 px-6 py-6 sm:px-8">
           <div className="flex flex-col gap-6 md:flex-col">
-            <div className="pointer-events-none absolute top-2 w-30 md:w-72 md:w-full ">
+            <div className="pointer-events-none absolute top-2 w-30 md:top-32 md:w-full ">
               {data?.poster_path || item.poster_path ? (
-                <div className="flex h-80 items-center justify-center ">
+                <div className="flex h-80 items-center justify-center md:items-start md:justify-start ">
                   <img
                     src={`${imageBaseUrl}${data?.poster_path ?? item.poster_path}`}
                     alt={title}

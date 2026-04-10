@@ -52,7 +52,7 @@ export default function VideoCard({
               return (
                 <article
                   key={`${mediaType}-${item.id}`}
-                  className="group overflow-hidden rounded-2xl border border-[var(--border)] bg-white text-left shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl dark:bg-slate-900"
+                  className="group overflow-hidden rounded-2xl border border-[var(--border)] bg-white/3 text-left shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl"
                 >
                   <div className="relative">
                     <button
@@ -67,7 +67,7 @@ export default function VideoCard({
                           className="h-42 w-full object-cover md:h-70"
                         />
                       ) : (
-                        <div className="flex h-72 items-center justify-center bg-slate-200 px-4 text-center text-sm font-medium text-slate-500 dark:bg-slate-800 dark:text-slate-300">
+                        <div className="flex h-auto w-full items-center justify-center bg-slate-200 px-4 text-center text-sm font-medium text-slate-500 dark:bg-slate-800 dark:text-slate-300">
                           Poster unavailable
                         </div>
                       )}
