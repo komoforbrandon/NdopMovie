@@ -1,11 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import type { MediaSummary, MovieDetailsCardProps} from "../types/type";
-import { FetchMovieDetails,FetchTvShowDetails } from "../service/api";
-import { Star, ArrowLeft, Tv, Play, Film, Clock3} from "lucide-react";
+import type { MediaSummary, MovieDetailsCardProps } from "../types/type";
+import { FetchMovieDetails, FetchTvShowDetails } from "../service/api";
+import { Star, ArrowLeft, Tv, Play, Film, Clock3 } from "lucide-react";
 
 const imageBaseUrl = "https://image.tmdb.org/t/p/w500";
 
-function getMediaTitle(item?: MediaSummary | null, fallback: string = "Untitled"): string {
+function getMediaTitle(
+  item?: MediaSummary | null,
+  fallback: string = "Untitled",
+): string {
   if (!item) return fallback;
   return item.title ?? item.name ?? fallback;
 }
@@ -15,20 +18,26 @@ function getMediaReleaseDate(item?: MediaSummary | null): string {
   return item.release_date ?? item.first_air_date ?? "Unknown";
 }
 
-export default function MovieDetailsCard({ item, mediaType, onClose }: MovieDetailsCardProps) {
+export default function MovieDetailsCard({
+  item,
+  mediaType,
+  onClose,
+}: MovieDetailsCardProps) {
   const { data, isLoading, error } = useQuery({
     queryKey: ["mediaDetails", mediaType, item?.id],
-    queryFn: () => 
-    mediaType === "movie" ? FetchMovieDetails(String(item!.id)) : FetchTvShowDetails(String(item!.id)),
-    enabled: Boolean(item)
+    queryFn: () =>
+      mediaType === "movie"
+        ? FetchMovieDetails(String(item!.id))
+        : FetchTvShowDetails(String(item!.id)),
+    enabled: Boolean(item),
   });
-
+  console.log('This is the data', data)
   if (!item) return null;
 
   const releaseDate = getMediaReleaseDate(data ?? item);
   const title = getMediaTitle(data ?? item);
 
- return (
+  return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80 backdrop-blur-sm md:h-screen md:w-full">
       <div className="relative h-screen w-full overflow-y-auto bg-[var(--bg)] shadow-2xl md:h-screen md:w-full">
         <button
@@ -53,22 +62,14 @@ export default function MovieDetailsCard({ item, mediaType, onClose }: MovieDeta
 
         <div className="space-y-6 px-6 py-6 sm:px-8">
           <div className="flex flex-col gap-6 md:flex-col">
-            <div className="absolute top-2 w-30 shrink-0 md:w-72 md:w-full md:shrink z-10 md:mt-0">
+            <div className="pointer-events-none absolute top-2 w-30 md:w-72 md:w-full ">
               {data?.poster_path || item.poster_path ? (
                 <div className="flex h-80 items-center justify-center ">
-                <img
-                  src={`${imageBaseUrl}${data?.poster_path ?? item.poster_path}`}
-                  alt={title}
-                  className="w-60 rounded-3xl object-cover shadow-lg"
-                />
-                <a
-                  href={`https://vidsrc-embed.ru/embed/movie?tmdb=${data?.id ?? item.id}&sub_url=https%3A%2F%2Fvidsrc.me%2Fsample.srt&autoplay=1`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="relative left-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-slate-950/70 text-white transition-colors hover:bg-slate-950"
-                >
-                  <Play size={18} />
-                </a>
+                  <img
+                    src={`${imageBaseUrl}${data?.poster_path ?? item.poster_path}`}
+                    alt={title}
+                    className="w-60 rounded-3xl object-cover shadow-lg"
+                  />
                 </div>
               ) : (
                 <div className="flex h-80 items-center justify-center rounded-3xl bg-slate-200 px-4 text-center text-sm text-slate-500 dark:bg-slate-800 dark:text-slate-300">
@@ -80,21 +81,41 @@ export default function MovieDetailsCard({ item, mediaType, onClose }: MovieDeta
             <div className="flex-1 space-y-4">
               <div className="space-y-3">
                 <div className="flex flex-wrap items-center gap-3 text-sm text-[var(--text)]">
+                  <a
+                    href={`https://vidsrc-embed.ru/embed/movie?tmdb=${data?.id ?? item.id}&sub_url=https%3A%2F%2Fvidsrc.me%2Fsample.srt&autoplay=1`}
+                    target="_self"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 p-3 font-medium text-blue-500"
+                  >
+                    <Play size={21} fill="currentColor" />
+                  </a>
                   <span className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 px-3 py-1 font-medium text-blue-500">
-                    {mediaType === "movie" ? <Film size={16} /> : <Tv size={16} />}
+                    {mediaType === "movie" ? (
+                      <Film size={16} />
+                    ) : (
+                      <Tv size={16} />
+                    )}
                     {mediaType === "movie" ? "Movie" : "TV"}
                   </span>
                   <span className="inline-flex items-center gap-2 rounded-full bg-amber-400/15 px-3 py-1 font-medium text-amber-600">
                     <Star size={16} fill="currentColor" />
-                    {data?.vote_average ? data.vote_average.toFixed(1) : item.vote_average.toFixed(1)}
+                    {data?.vote_average
+                      ? data.vote_average.toFixed(1)
+                      : item.vote_average.toFixed(1)}
                   </span>
-                  {releaseDate ? <span>{new Date(releaseDate).toDateString()}</span> : null}
+                  {releaseDate ? (
+                    <span>{new Date(releaseDate).toDateString()}</span>
+                  ) : null}
                 </div>
 
                 <div>
-                  <h2 className="text-3xl font-bold text-[var(--text-h)]">{title}</h2>
+                  <h2 className="text-3xl font-bold text-[var(--text-h)]">
+                    {title}
+                  </h2>
                   {data?.tagline ? (
-                    <p className="mt-2 text-sm italic text-[var(--text)]">{data.tagline}</p>
+                    <p className="mt-2 text-sm italic text-[var(--text)]">
+                      {data.tagline}
+                    </p>
                   ) : null}
                 </div>
               </div>
@@ -109,7 +130,8 @@ export default function MovieDetailsCard({ item, mediaType, onClose }: MovieDeta
 
                 {data?.number_of_seasons ? (
                   <span className="rounded-full border border-[var(--border)] px-3 py-1">
-                    {data.number_of_seasons} season{data.number_of_seasons > 1 ? "s" : ""}
+                    {data.number_of_seasons} season
+                    {data.number_of_seasons > 1 ? "s" : ""}
                   </span>
                 ) : null}
 
@@ -140,14 +162,22 @@ export default function MovieDetailsCard({ item, mediaType, onClose }: MovieDeta
               ) : null}
 
               <div className="rounded-3xl border border-[var(--border)] bg-slate-500/5 p-4">
-                <h3 className="mb-2 text-lg font-semibold text-[var(--text-h)]">Overview</h3>
+                <h3 className="mb-2 text-lg font-semibold text-[var(--text-h)]">
+                  Overview
+                </h3>
                 {isLoading ? (
-                  <p className="text-sm text-[var(--text)]">Loading details...</p>
+                  <p className="text-sm text-[var(--text)]">
+                    Loading details...
+                  </p>
                 ) : error ? (
-                  <p className="text-sm text-red-500">Unable to load the full details right now.</p>
+                  <p className="text-sm text-red-500">
+                    Unable to load the full details right now.
+                  </p>
                 ) : (
                   <p className="leading-7 text-[var(--text)]">
-                    {data?.overview || item.overview || "No overview is available yet."}
+                    {data?.overview ||
+                      item.overview ||
+                      "No overview is available yet."}
                   </p>
                 )}
               </div>

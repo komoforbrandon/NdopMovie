@@ -1,4 +1,4 @@
-import { Star } from "lucide-react";
+import { Star, Bookmark } from "lucide-react";
 import { useState } from "react";
 import type { MediaSummary, MediaType } from "../types/type";
 import MoviedetailsCard from "./MoviedetailsCard";
@@ -49,14 +49,17 @@ export default function VideoCard({
                 key={`${mediaType}-${item.id}`}
                 type="button"
                 onClick={() => setSelectedItem(item)}
-                className="group overflow-hidden rounded-3xl border border-[var(--border)] bg-white text-left shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl dark:bg-slate-900"
+                className="group overflow-hidden rounded-2xl border border-[var(--border)] bg-white text-left shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl dark:bg-slate-900"
               >
                 {item.poster_path ? (
+                <div>
                   <img
                     src={`${imageBaseUrl}${item.poster_path}`}
                     alt={getMediaTitle(item)}
-                    className="h-72 w-full object-cover"
+                    className="h-42 w-full object-cover md:h-70"
                   />
+                  <Bookmark className="absolute top-2 right-2 z-10 h-8 w-8 cursor-pointer rounded-full bg-slate-950/50 p-2 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:block" />
+                  </div>
                 ) : (
                   <div className="flex h-72 items-center justify-center bg-slate-200 px-4 text-center text-sm font-medium text-slate-500 dark:bg-slate-800 dark:text-slate-300">
                     Poster unavailable
@@ -78,8 +81,8 @@ export default function VideoCard({
                     {getReleaseDate(item) ? new Date(getReleaseDate(item)).getFullYear() : "Coming soon"}
                   </p>
 
-                  <p className="line-clamp-3 text-sm text-[var(--text)]">
-                    {item.overview || "No overview available yet."}
+                  <p className="line-clamp-3 text-sm text-[var(--text)] hidden">
+                    {item.overview.trim() || "No overview available yet."}
                   </p>
                 </div>
               </button>

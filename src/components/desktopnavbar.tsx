@@ -33,14 +33,14 @@ export default function MobileNavbar() {
   return (
     <>
       <div
-        className={`fixed top-0 right-0 left-0 z-50 border-b backdrop-blur md:hidden ${
+        className={`fixed top-0 right-0 left-0 z-50 border  backdrop-blur ${
           isDark
             ? "border-slate-800 bg-slate-950/85 text-white"
             : "border-slate-200 bg-white/85 text-slate-900"
         }`}
         onMouseLeave={() => setShowSearch(false)}
       >
-        <nav className="z-50 flex items-center justify-between px-1 py-1 md:hidden">
+        <nav className="z-50 hidden flex items-center justify-between px-1 py-1 md:flex md:max-w-6xl md:mx-auto">
           <div className="flex items-center space-x-1">
             <img src={ndopflix} alt="Ndopflix Logo" className="h-12 w-auto" />
             <span className="text-2xl font-bold text-blue-600">
