@@ -5,8 +5,6 @@ import ndopflix from "../assets/ndopflix.png";
 import SearchBar from "./search";
 import { ThemeToggle, useTheme } from "./theme";
 import { useSearchParams,useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { FetchtmdbData } from "../service/api";
 
 export default function MobileNavbar() {
   const [searchParams] = useSearchParams();
@@ -27,16 +25,11 @@ export default function MobileNavbar() {
   const navItems = [
     { id: "home", label: "Home", icon: <HomeIcon />, path: "/" },
     { id: "movies", label: "Movies", icon: <Clapperboard />, path: "/movies" },
-    { id: "anime", label: "TV Show", icon: <Monitor />, path: "/anime" },
+    { id: "tv", label: "TV Show", icon: <Monitor />, path: "/tv" },
     { id: "saved", label: "Saved", icon: <Bookmark />, path: "/saved" },
     { id: "profile", label: "Profile", icon: <User />, path: "/profile" },
   ];
- 
-  const { data: searchResults, isLoading, error } = useQuery({
-    queryKey: ["search", searchTerm],
-    queryFn: () => FetchtmdbData(searchTerm),
-    enabled: !!searchTerm,
-  })
+
 
   return (
     <>

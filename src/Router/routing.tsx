@@ -8,7 +8,7 @@ import SavedMovies from "../pages/Saved";
 const routes = [
     {label: "/", element: <Home />},
     {label: "/movies", element: <Movie />},
-    {label: "/anime", element: <Anime />},
+    {label: "/tv", element: <Anime />},
     {label: "/saved", element: <SavedMovies />},
     {label: "/profile", element: <Profile />},
 ]

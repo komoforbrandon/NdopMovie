@@ -1,8 +1,17 @@
 import { Search } from "lucide-react"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type {SearchProp} from "../types/type"
-export default function SearchBar({OnSearch}:SearchProp) {
-    const [searchQuery, setSearchQuery] = useState("");
+
+export default function SearchBar({OnSearch, initialValue=""}:SearchProp) {
+    const [searchQuery, setSearchQuery] = useState(initialValue);
+
+    useEffect(() => {
+        setSearchQuery(initialValue);
+    }, [initialValue]);
+
+    const handleSearch =() =>{
+        OnSearch(searchQuery.trim());
+    }
 
     return (
         <div className="flex items-center justify-center">
@@ -16,7 +25,8 @@ export default function SearchBar({OnSearch}:SearchProp) {
                 />
                 <Search 
                 className="absolute left-3 top-1/2 cursor-pointer transform -translate-y-1/2 text-gray-400" 
-                onClick={() => OnSearch(searchQuery)}
+                onClick={handleSearch}
+                aria-label="Search"
                 />
             </div>
         </div>
