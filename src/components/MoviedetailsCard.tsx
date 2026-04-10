@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import type { MediaSummary, MovieDetailsCardProps } from "../types/type";
 import { FetchMovieDetails, FetchTvShowDetails } from "../service/api";
 import { Star, ArrowLeft, Tv, Play, Film, Clock3, Download } from "lucide-react";
+import WatchModal from "./WatchModal";
+import { useState } from "react";
 
 const imageBaseUrl = "https://image.tmdb.org/t/p/w500";
 
@@ -23,6 +25,7 @@ export default function MovieDetailsCard({
   mediaType,
   onClose,
 }: MovieDetailsCardProps) {
+  const [isModalOpen, setModalIsOpen] = useState(false);
   const { data, isLoading, error } = useQuery({
     queryKey: ["mediaDetails", mediaType, item?.id],
     queryFn: () =>
@@ -81,19 +84,22 @@ export default function MovieDetailsCard({
             <div className="flex-1 space-y-4">
               <div className="space-y-3">
                 <div className="flex flex-wrap items-center gap-3 text-sm text-[var(--text)]">
-                  <a
-                    href={`https://vidsrc-embed.ru/embed/movie?tmdb=${data?.id ?? item.id}&sub_url=https%3A%2F%2Fvidsrc.me%2Fsample.srt&autoplay=1`}
-                    target="_self"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 p-3 font-medium text-blue-500"
+                  <span
+                    onClick={() => setModalIsOpen(true)}
+                    className="inline-flex items-center gap-2 rounded-full cursor-pointer bg-blue-500/10 p-3 font-medium text-blue-500"
                   >
                     <Play size={21} fill="currentColor" />
-                  </a>
+                    Watch Movie
+                    <WatchModal 
+                    iframelink={`https://vidsrc-embed.ru/embed/movie?tmdb=${data?.id ?? item.id}&sub_url=https%3A%2F%2Fvidsrc.me%2Fsample.srt&autoplay=1`} 
+                    onClose={() => setModalIsOpen(false)}
+                    isOpen={isModalOpen} />
+                  </span>
                   <span className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 px-3 py-1 font-medium text-blue-500">
                     {mediaType === "movie" ? (
-                      <Film size={16} />
+                      <Film size={20} />
                     ) : (
-                      <Tv size={16} />
+                      <Tv size={20} />
                     )}
                     {mediaType === "movie" ? "Movie" : "TV"}
                   </span>
@@ -105,11 +111,10 @@ export default function MovieDetailsCard({
                   </span>
                   <a
                     href={`https://vidsrc-embed.ru/embed/movie?tmdb=${data?.id ?? item.id}&sub_url=https%3A%2F%2Fvidsrc.me%2Fsample.srt&autoplay=1`}
-                    
-                    className = "inline-flex items-center gap-2 rounded-full bg-blue-500/10 p-3 font-medium text-blue-500"
+                    className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 p-3 font-medium text-blue-500"
                     download={`https://vidsrc-embed.ru/embed/movie?tmdb=${data?.id ?? item.id}&sub_url=https%3A%2F%2Fvidsrc.me%2Fsample.srt&autoplay=1.mp4`}
                     >
-                      <Download size={16} fill="currentColor" />
+                      <Download size={20} />
                     </a>
 
                   {releaseDate ? (
