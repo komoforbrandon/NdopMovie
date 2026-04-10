@@ -35,12 +35,14 @@ export default function DesktopNavbar() {
   ];
 
   return (
-    <nav
-      className={`sticky top-0 z-50 hidden items-center justify-between border-b px-6 py-2 shadow-md backdrop-blur md:flex ${
+    <div className={`sticky top-0 z-50 hidden items-center justify-between border-b px-6 py-2 shadow-md backdrop-blur md:flex ${
         isDark
           ? "border-slate-800 bg-slate-950/85 text-white"
           : "border-slate-200 bg-white/85 text-slate-900"
-      }`}
+      }
+    `}>
+    <nav
+      className={` items-center justify-between w-full  py-2 md:container md:max-w-7xl md:mx-auto md:flex`}
     >
       <div className="flex items-center space-x-4">
         <img src={ndopflixlogo} alt="Ndopflix Logo" className="h-12 w-auto mr-3" />
@@ -77,5 +79,6 @@ export default function DesktopNavbar() {
         </div>
       </div>
     </nav>
+    </div>
   );
 }   
