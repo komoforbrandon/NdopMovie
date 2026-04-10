@@ -39,9 +39,9 @@ export default function Home() {
     });
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] px-4 pt-18 pb-28 text-[var(--text)] md:px-8 md:pt-16 md:pb-12">
+    <main className="min-h-screen bg-(--bg) px-4 pt-18 pb-28 text-(--text) md:px-8 md:pt-3 md:pb-12">
       <div className="mx-auto flex max-w-7xl flex-col gap-3">
-        <section className="rounded-[2rem] text-white shadow-2xl">
+        <section className="rounded-4xl text-white shadow-2xl">
           <div className="max-w-3xl">
             <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em]">
               <Sparkles size={14} />
