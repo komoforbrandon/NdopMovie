@@ -4,20 +4,32 @@ import { useState } from "react";
 import ndopflix from "../assets/ndopflix.png";
 import SearchBar from "./search";
 import { ThemeToggle, useTheme } from "./theme";
-import { useSearchParams,useNavigate } from "react-router-dom";
+import { useSearchParams,useNavigate, useLocation } from "react-router-dom";
 
 export default function MobileNavbar() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [activeitem, setActiveItem] = useState("home");
+  const location = useLocation();
   const [showSearch, setShowSearch] = useState(false);
   const { isDark, toggleTheme } = useTheme();
 
   const searchTerm = searchParams.get("query") || "";
 
+  const getSearchPath = () => {
+    if (location.pathname === "/tv") {
+      return "/tv";
+    }
+
+    if (location.pathname === "/movies") {
+      return "/movies";
+    }
+
+    return "/";
+  };
+
   const handleSearch = (term: string) => {
-    if (searchTerm.trim() !== "") {
-      navigate(`/search?query=${encodeURIComponent(term)}`);
+    if (term.trim() !== "") {
+      navigate(`${getSearchPath()}?query=${encodeURIComponent(term)}`);
       setShowSearch(false);
     }
   };
@@ -72,7 +84,7 @@ export default function MobileNavbar() {
       </nav>
       {showSearch && (
         <div className="px-4 py-2">
-          <SearchBar OnSearch={handleSearch} />
+          <SearchBar OnSearch={handleSearch} initialValue={searchTerm} />
         </div>
       )}
     </div>
@@ -89,13 +101,12 @@ export default function MobileNavbar() {
             key={item.id}
             to={item.path}
             className={`flex flex-col items-center transition-colors duration-200 ${
-              activeitem === item.id
+              location.pathname === item.path
                 ? "text-blue-500"
                 : isDark
                   ? "text-gray-300"
                   : "text-gray-600"
             }`}
-            onClick={() => setActiveItem(item.id)}
           >
             {item.icon}
             <span className="text-[14px] font-medium">{item.label}</span>

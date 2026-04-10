@@ -1,18 +1,36 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { User } from "lucide-react";
-import { useState } from "react";
 import ndopflixlogo from "../assets/ndopflix.png";
 import SearchBar from "./search";
 import { ThemeToggle, useTheme } from "./theme";
 
 export default function DesktopNavbar() {
-  const [activeitem, setActiveItem] = useState("home");
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { isDark, toggleTheme } = useTheme();
+  const searchTerm = searchParams.get("query") ?? "";
+
+  function getSearchPath() {
+    if (location.pathname === "/tv") {
+      return "/tv";
+    }
+
+    if (location.pathname === "/movies") {
+      return "/movies";
+    }
+
+    return "/";
+  }
+
+  function handleSearch(query: string) {
+    navigate(`${getSearchPath()}?query=${encodeURIComponent(query)}`);
+  }
 
   const navItems = [
     { id: "home", label: "Home",  path: "/" },
     { id: "movies", label: "Movies", path: "/movies" },
-    { id: "anime", label: "TV Shows", path: "/anime" },
+    { id: "tv", label: "TV Shows", path: "/tv" },
     { id: "saved", label: "Saved", path: "/saved" },
   ];
 
@@ -32,19 +50,18 @@ export default function DesktopNavbar() {
             key={item.id}
             to={item.path}
             className={`flex items-center space-x-1 font-medium transition-colors duration-200 ease-in-out hover:underline hover:underline-offset-4 ${
-              activeitem === item.id
+              location.pathname === item.path
                 ? "text-blue-500"
                 : isDark
                   ? "text-gray-300 hover:text-blue-400"
                   : "text-gray-600 hover:text-blue-600"
             }`}
-            onClick={() => setActiveItem(item.id)}
           >
             <span>{item.label}</span>
           </Link>
         ))}
       </div>
-         <SearchBar />
+         <SearchBar OnSearch={handleSearch} initialValue={searchTerm} />
       <div className="flex space-x-6">
         <div className="flex items-center space-x-4">
           <ThemeToggle isDark={isDark} onToggle={toggleTheme} />
