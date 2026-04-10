@@ -18,6 +18,10 @@ export type MediaSummary = {
   name?: string;
 };
 
+export type SavedMediaItem = MediaSummary & {
+  mediaType: MediaType;
+};
+
 export type MediaDetails = MediaSummary & {
   genres?: Genre[];
   tagline?: string;
@@ -73,4 +77,3 @@ export type MovieDetailsCardProps = {
   mediaType: MediaType;
   onClose: () => void;
 };
-

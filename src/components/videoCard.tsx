@@ -1,6 +1,7 @@
 import { Star, Bookmark } from "lucide-react";
 import { useState } from "react";
 import type { MediaSummary, MediaType } from "../types/type";
+import { useSavedMedia } from "../hooks/useSavedMedia";
 import MoviedetailsCard from "./MoviedetailsCard";
 
 type VideoCardProps = {
@@ -27,6 +28,7 @@ export default function VideoCard({
   emptyMessage = "No titles are available right now.",
 }: VideoCardProps) {
   const [selectedItem, setSelectedItem] = useState<MediaSummary | null>(null);
+  const { isSaved, toggleSaved } = useSavedMedia();
 
   return (
     <>
@@ -44,49 +46,75 @@ export default function VideoCard({
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-            {items.map((item) => (
-              <button
-                key={`${mediaType}-${item.id}`}
-                type="button"
-                onClick={() => setSelectedItem(item)}
-                className="group overflow-hidden rounded-2xl border border-[var(--border)] bg-white text-left shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl dark:bg-slate-900"
-              >
-                {item.poster_path ? (
-                <div>
-                  <img
-                    src={`${imageBaseUrl}${item.poster_path}`}
-                    alt={getMediaTitle(item)}
-                    className="h-42 w-full object-cover md:h-70"
-                  />
-                  <Bookmark className="absolute top-2 right-2 z-10 h-8 w-8 cursor-pointer rounded-full bg-slate-950/50 p-2 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:block" />
-                  </div>
-                ) : (
-                  <div className="flex h-72 items-center justify-center bg-slate-200 px-4 text-center text-sm font-medium text-slate-500 dark:bg-slate-800 dark:text-slate-300">
-                    Poster unavailable
-                  </div>
-                )}
+            {items.map((item) => {
+              const itemIsSaved = isSaved(item.id, mediaType);
 
-                <div className="space-y-2 p-4">
-                  <div className="flex items-start justify-between gap-3">
-                    <h3 className="line-clamp-2 text-base font-semibold text-[var(--text-h)]">
-                      {getMediaTitle(item)}
-                    </h3>
-                    <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-amber-400/15 px-2 py-1 text-xs font-semibold text-amber-600">
-                      <Star size={12} fill="currentColor" />
-                      {item.vote_average ? item.vote_average.toFixed(1) : "N/A"}
-                    </span>
+              return (
+                <article
+                  key={`${mediaType}-${item.id}`}
+                  className="group overflow-hidden rounded-2xl border border-[var(--border)] bg-white text-left shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl dark:bg-slate-900"
+                >
+                  <div className="relative">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedItem(item)}
+                      className="block w-full text-left"
+                    >
+                      {item.poster_path ? (
+                        <img
+                          src={`${imageBaseUrl}${item.poster_path}`}
+                          alt={getMediaTitle(item)}
+                          className="h-42 w-full object-cover md:h-70"
+                        />
+                      ) : (
+                        <div className="flex h-72 items-center justify-center bg-slate-200 px-4 text-center text-sm font-medium text-slate-500 dark:bg-slate-800 dark:text-slate-300">
+                          Poster unavailable
+                        </div>
+                      )}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => toggleSaved(item, mediaType)}
+                      className={`absolute top-2 right-2 z-10 rounded-full p-2 text-white transition-colors duration-200 ${
+                        itemIsSaved ? "bg-blue-600" : "bg-slate-950/50"
+                      }`}
+                      aria-label={itemIsSaved ? "Remove from saved" : "Save title"}
+                    >
+                      <Bookmark
+                        className="h-4 w-4"
+                        fill={itemIsSaved ? "currentColor" : "none"}
+                      />
+                    </button>
                   </div>
 
-                  <p className="text-sm text-[var(--text)]">
-                    {getReleaseDate(item) ? new Date(getReleaseDate(item)).getFullYear() : "Coming soon"}
-                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedItem(item)}
+                    className="w-full space-y-2 p-2 text-left"
+                  >
+                    <div className="flex items-start justify-between">
+                      <h3 className="line-clamp-2 w-full text-base font-semibold text-[var(--text-h)]">
+                        {getMediaTitle(item)}
+                      </h3>
+                    </div>
+                    <div className="flex items-start justify-between gap-3">
+                    <p className="text-sm text-[var(--text)]">
+                      {getReleaseDate(item) ? new Date(getReleaseDate(item)).getFullYear() : "Coming soon"}
+                    </p>
+                      <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-amber-400/15 px-2 py-1 text-xs font-semibold text-amber-600">
+                        <Star size={12} fill="currentColor" />
+                        {item.vote_average ? item.vote_average.toFixed(1) : "N/A"}
+                      </span>
+                    </div>
 
-                  <p className="line-clamp-3 text-sm text-[var(--text)] hidden">
-                    {item.overview.trim() || "No overview available yet."}
-                  </p>
-                </div>
-              </button>
-            ))}
+                    <p className="line-clamp-3 text-sm text-[var(--text)] hidden">
+                      {item.overview.trim() || "No overview available yet."}
+                    </p>
+                  </button>
+                </article>
+              );
+            })}
           </div>
         )}
       </section>

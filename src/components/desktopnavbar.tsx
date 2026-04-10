@@ -1,108 +1,81 @@
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { Bookmark, Clapperboard, HomeIcon, Monitor, Search, User, X } from "lucide-react";
-import { useState } from "react";
-import ndopflix from "../assets/ndopflix.png";
+import { User } from "lucide-react";
+import ndopflixlogo from "../assets/ndopflix.png";
 import SearchBar from "./search";
 import { ThemeToggle, useTheme } from "./theme";
 
-export default function MobileNavbar() {
+export default function DesktopNavbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [showSearch, setShowSearch] = useState(false);
   const { isDark, toggleTheme } = useTheme();
-
-  const activePath = location.pathname === "/anime" ? "/tv" : location.pathname;
   const searchTerm = searchParams.get("query") ?? "";
 
-  const handleSearch = (term: string) => {
-    const targetPath = activePath === "/tv" ? "/tv" : "/movies";
+  function getSearchPath() {
+    if (location.pathname === "/tv") {
+      return "/tv";
+    }
 
-    navigate(term ? `${targetPath}?query=${encodeURIComponent(term)}` : targetPath);
-    setShowSearch(false);
-  };
+    if (location.pathname === "/movies") {
+      return "/movies";
+    }
+
+    return "/";
+  }
+
+  function handleSearch(query: string) {
+    navigate(`${getSearchPath()}?query=${encodeURIComponent(query)}`);
+  }
 
   const navItems = [
-    { id: "home", label: "Home", icon: <HomeIcon />, path: "/" },
-    { id: "movies", label: "Movies", icon: <Clapperboard />, path: "/movies" },
-    { id: "tv", label: "TV Show", icon: <Monitor />, path: "/tv" },
-    { id: "saved", label: "Saved", icon: <Bookmark />, path: "/saved" },
-    { id: "profile", label: "Profile", icon: <User />, path: "/profile" },
+    { id: "home", label: "Home",  path: "/" },
+    { id: "movies", label: "Movies", path: "/movies" },
+    { id: "tv", label: "TV Shows", path: "/tv" },
+    { id: "saved", label: "Saved", path: "/saved" },
   ];
 
   return (
-    <>
-      <div
-        className={`fixed top-0 right-0 left-0 z-50 border  backdrop-blur ${
-          isDark
-            ? "border-slate-800 bg-slate-950/85 text-white"
-            : "border-slate-200 bg-white/85 text-slate-900"
-        }`}
-        onMouseLeave={() => setShowSearch(false)}
-      >
-        <nav className="z-50 hidden flex items-center justify-between px-1 py-1 md:flex md:max-w-6xl md:mx-auto">
-          <div className="flex items-center space-x-1">
-            <img src={ndopflix} alt="Ndopflix Logo" className="h-12 w-auto" />
-            <span className="text-2xl font-bold text-blue-600">
-              <span className="text-red-600">Ndop</span>flix
-            </span>
-          </div>
-
-          <div className="ml-auto flex items-center gap-2 pr-1">
-            {!showSearch ? (
-              <Search
-                className={`cursor-pointer transition-colors duration-200 ease-in-out ${
-                  isDark ? "text-gray-300 hover:text-blue-400" : "text-gray-600 hover:text-blue-600"
-                }`}
-                onClick={() => setShowSearch(true)}
-                onMouseEnter={() => setShowSearch(true)}
-              />
-            ) : (
-              <X
-                className={`cursor-pointer transition-colors duration-200 ease-in-out ${
-                  isDark ? "text-gray-300 hover:text-blue-400" : "text-gray-600 hover:text-blue-600"
-                }`}
-                onClick={() => setShowSearch(false)}
-              />
-            )}
-            <ThemeToggle isDark={isDark} onToggle={toggleTheme} />
-          </div>
-        </nav>
-
-        {showSearch ? (
-          <div className="px-4 py-2">
-            <SearchBar
-              OnSearch={handleSearch}
-              initialValue={searchTerm}
-            />
-          </div>
-        ) : null}
-      </div>
-
-      <nav
-        className={`fixed right-0 bottom-0 left-0 z-50 flex justify-around border-t py-2 backdrop-blur md:hidden ${
-          isDark
-            ? "border-slate-800 bg-slate-950/85 text-white"
-            : "border-slate-200 bg-white/85 text-slate-900"
-        }`}
-      >
-        {navItems.map((item) => (
+    <nav
+      className={`sticky top-0 z-50 hidden items-center justify-between border-b px-6 py-2 shadow-md backdrop-blur md:flex ${
+        isDark
+          ? "border-slate-800 bg-slate-950/85 text-white"
+          : "border-slate-200 bg-white/85 text-slate-900"
+      }`}
+    >
+      <div className="flex items-center space-x-4">
+        <img src={ndopflixlogo} alt="Ndopflix Logo" className="h-12 w-auto mr-3" />
+        <span className="text-2xl font-bold text-blue-600"><span className="text-red-600">Ndop</span>flix</span>
+          {navItems.map((item) => (
           <Link
             key={item.id}
             to={item.path}
-            className={`flex flex-col items-center transition-colors duration-200 ${
-              activePath === item.path
+            className={`flex items-center space-x-1 font-medium transition-colors duration-200 ease-in-out hover:underline hover:underline-offset-4 ${
+              location.pathname === item.path
                 ? "text-blue-500"
                 : isDark
-                  ? "text-gray-300"
-                  : "text-gray-600"
+                  ? "text-gray-300 hover:text-blue-400"
+                  : "text-gray-600 hover:text-blue-600"
             }`}
           >
-            {item.icon}
-            <span className="text-[14px] font-medium">{item.label}</span>
+            <span>{item.label}</span>
           </Link>
         ))}
-      </nav>
-    </>
+      </div>
+         <SearchBar OnSearch={handleSearch} initialValue={searchTerm} />
+      <div className="flex space-x-6">
+        <div className="flex items-center space-x-4">
+          <ThemeToggle isDark={isDark} onToggle={toggleTheme} />
+          <Link
+            to="/profile"
+            className={`flex items-center space-x-1 transition-colors duration-200 ${
+              isDark ? "hover:text-blue-400" : "hover:text-blue-600"
+            }`}
+          >
+            <User />
+            <span>Profile</span>
+          </Link>
+        </div>
+      </div>
+    </nav>
   );
-}
+}   

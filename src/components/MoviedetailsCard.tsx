@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import type { MediaSummary, MovieDetailsCardProps } from "../types/type";
 import { FetchMovieDetails, FetchTvShowDetails } from "../service/api";
-import { Star, ArrowLeft, Tv, Play, Film, Clock3 } from "lucide-react";
+import { Star, ArrowLeft, Tv, Play, Film, Clock3, Download } from "lucide-react";
 
 const imageBaseUrl = "https://image.tmdb.org/t/p/w500";
 
@@ -38,7 +38,7 @@ export default function MovieDetailsCard({
   const title = getMediaTitle(data ?? item);
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80 backdrop-blur-sm md:h-screen md:w-full">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/10 backdrop-blur-sm md:h-screen md:w-full">
       <div className="relative h-screen w-full overflow-y-auto bg-[var(--bg)] shadow-2xl md:h-screen md:w-full">
         <button
           type="button"
@@ -72,7 +72,7 @@ export default function MovieDetailsCard({
                   />
                 </div>
               ) : (
-                <div className="flex h-80 items-center justify-center rounded-3xl bg-slate-200 px-4 text-center text-sm text-slate-500 dark:bg-slate-800 dark:text-slate-300">
+                <div className="flex h-80 items-center justify-start rounded-3xl bg-slate-200 px-4 text-center text-sm text-slate-500 dark:bg-slate-800 dark:text-slate-300">
                   Poster unavailable
                 </div>
               )}
@@ -103,6 +103,15 @@ export default function MovieDetailsCard({
                       ? data.vote_average.toFixed(1)
                       : item.vote_average.toFixed(1)}
                   </span>
+                  <a
+                    href={`https://vidsrc-embed.ru/embed/movie?tmdb=${data?.id ?? item.id}&sub_url=https%3A%2F%2Fvidsrc.me%2Fsample.srt&autoplay=1`}
+                    
+                    className = "inline-flex items-center gap-2 rounded-full bg-blue-500/10 p-3 font-medium text-blue-500"
+                    download={`https://vidsrc-embed.ru/embed/movie?tmdb=${data?.id ?? item.id}&sub_url=https%3A%2F%2Fvidsrc.me%2Fsample.srt&autoplay=1.mp4`}
+                    >
+                      <Download size={16} fill="currentColor" />
+                    </a>
+
                   {releaseDate ? (
                     <span>{new Date(releaseDate).toDateString()}</span>
                   ) : null}
@@ -161,7 +170,7 @@ export default function MovieDetailsCard({
                 </div>
               ) : null}
 
-              <div className="rounded-3xl border border-[var(--border)] bg-slate-500/5 p-4">
+              <div className="rounded-3xl border border-(--border) bg-slate-500/5 p-4">
                 <h3 className="mb-2 text-lg font-semibold text-[var(--text-h)]">
                   Overview
                 </h3>

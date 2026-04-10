@@ -1,10 +1,121 @@
-import { FetchTrendingMovies } from "../service/api";
+import { useQuery } from "@tanstack/react-query";
+import { Clapperboard, Sparkles } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
+import Loader from "../components/Loader";
+import VideoCard from "../components/videoCard";
+import {
+  FetchTrendingMovies,
+  FetchtrendingTvShows,
+  FetchtmdbData,
+  SearchTvShows,
+} from "../service/api";
 
 export default function Home() {
-  FetchTrendingMovies();
+  const [searchParams] = useSearchParams();
+  const searchTerm = searchParams.get("query")?.trim() ?? "";
+
+  const { data: movieSearchResults, isLoading: isMovieSearchLoading } = useQuery({
+    queryKey: ["home-movie-search", searchTerm],
+    queryFn: () => FetchtmdbData(searchTerm),
+    enabled: Boolean(searchTerm),
+  });
+
+  const { data: tvSearchResults, isLoading: isTvSearchLoading } = useQuery({
+    queryKey: ["home-tv-search", searchTerm],
+    queryFn: () => SearchTvShows(searchTerm),
+    enabled: Boolean(searchTerm),
+  });
+
+  const { data: trendingMovies, isLoading: isTrendingMoviesLoading, error: trendingMoviesError } =
+    useQuery({
+      queryKey: ["home-trending-movies"],
+      queryFn: FetchTrendingMovies,
+    });
+
+  const { data: trendingTvShows, isLoading: isTrendingTvShowsLoading, error: trendingTvShowsError } =
+    useQuery({
+      queryKey: ["home-trending-tv-shows"],
+      queryFn: FetchtrendingTvShows,
+    });
+
   return (
-    <div className="flex items-center justify-center h-screen">
-      <h1 className="text-4xl font-bold">Welcome to the Movie App!</h1>
-    </div>
+    <main className="min-h-screen bg-[var(--bg)] px-4 pt-18 pb-28 text-[var(--text)] md:px-8 md:pt-16 md:pb-12">
+      <div className="mx-auto flex max-w-7xl flex-col gap-3">
+        <section className="rounded-[2rem] text-white shadow-2xl">
+          <div className="max-w-3xl">
+            <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em]">
+              <Sparkles size={14} />
+              Featured today
+            </span>
+          </div>
+        </section>
+
+        {searchTerm ? (
+          <>
+            {isMovieSearchLoading ? (
+              <Loader title="Searching movies" badge="movie" />
+            ) : (
+              <VideoCard
+                title={`Movie Results for "${searchTerm}"`}
+                items={movieSearchResults?.results ?? []}
+                mediaType="movie"
+                emptyMessage={`No movies matched "${searchTerm}". Try another title.`}
+              />
+            )}
+
+            {isTvSearchLoading ? (
+              <Loader title="Searching TV shows" badge="tv" />
+            ) : (
+              <VideoCard
+                title={`TV Results for "${searchTerm}"`}
+                items={tvSearchResults?.results ?? []}
+                mediaType="tv"
+                emptyMessage={`No TV shows matched "${searchTerm}". Try another title.`}
+              />
+            )}
+          </>
+        ) : null}
+
+        {isTrendingMoviesLoading ? (
+          <Loader title="Loading trending movies" badge="movie" />
+        ) : (
+          <VideoCard
+            title="Trending Movies"
+            items={trendingMovies?.results ?? []}
+            mediaType="movie"
+            emptyMessage={
+              trendingMoviesError
+                ? "Trending movies could not be loaded right now."
+                : "No trending movies are available right now."
+            }
+          />
+        )}
+
+        {isTrendingTvShowsLoading ? (
+          <Loader title="Loading trending TV shows" badge="tv" />
+        ) : (
+          <VideoCard
+            title="Trending TV Shows"
+            items={trendingTvShows?.results ?? []}
+            mediaType="tv"
+            emptyMessage={
+              trendingTvShowsError
+                ? "Trending TV shows could not be loaded right now."
+                : "No trending TV shows are available right now."
+            }
+          />
+        )}
+
+        <section className="rounded-3xl border border-[var(--border)] bg-white/40 px-6 py-5 shadow-sm dark:bg-slate-900/30">
+          <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-blue-500">
+            <Clapperboard size={14} />
+            KBrand
+          </div>
+          <p className="mt-3 text-sm text-[var(--text)]">
+           @Ndopflix All right reserved
+          </p>
+        </section>
+      </div>
+    </main>
   );
 }
