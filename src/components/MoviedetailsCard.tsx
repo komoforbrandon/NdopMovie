@@ -41,8 +41,8 @@ export default function MovieDetailsCard({
   const title = getMediaTitle(data ?? item);
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/10 backdrop-blur-sm md:h-screen md:w-full">
-      <div className="relative h-screen w-full overflow-y-auto bg-[var(--bg)] shadow-2xl md:h-screen md:w-full">
+    <div className="fixed inset-0 z-100 flex items-center justify-center bg-slate-950/10 backdrop-blur-sm md:h-screen md:w-full">
+      <div className="relative h-screen w-full overflow-y-auto bg-(--bg) shadow-2xl md:h-screen md:w-full">
         <button
           type="button"
           onClick={onClose}
@@ -59,7 +59,7 @@ export default function MovieDetailsCard({
               alt={title}
               className="h-full w-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg)] via-slate-950/30 to-transparent " />
+            <div className="absolute inset-0 bg-linear-to-t from-(--bg) via-slate-950/30 to-transparent " />
           </div>
         ) : null}
 
@@ -83,7 +83,7 @@ export default function MovieDetailsCard({
 
             <div className="flex-1 space-y-4">
               <div className="space-y-3">
-                <div className="flex flex-wrap items-center gap-3 text-sm text-[var(--text)]">
+                <div className="flex flex-wrap items-center gap-3 text-sm text-(--text)">
                   <span
                     onClick={() => setModalIsOpen(true)}
                     className="inline-flex items-center gap-2 rounded-full cursor-pointer bg-blue-500/10 p-3 font-medium text-blue-500"
@@ -123,40 +123,40 @@ export default function MovieDetailsCard({
                 </div>
 
                 <div>
-                  <h2 className="text-3xl font-bold text-[var(--text-h)]">
+                  <h2 className="text-3xl font-bold text-(--text-h)">
                     {title}
                   </h2>
                   {data?.tagline ? (
-                    <p className="mt-2 text-sm italic text-[var(--text)]">
+                    <p className="mt-2 text-sm italic text-(--text)">
                       {data.tagline}
                     </p>
                   ) : null}
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-3 text-sm text-[var(--text)]">
+              <div className="flex flex-wrap gap-3 text-sm text-(--text)">
                 {data?.runtime ? (
-                  <span className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] px-3 py-1">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-(--border) px-3 py-1">
                     <Clock3 size={16} />
                     {data.runtime} min
                   </span>
                 ) : null}
 
                 {data?.number_of_seasons ? (
-                  <span className="rounded-full border border-[var(--border)] px-3 py-1">
+                  <span className="rounded-full border border-(--border) px-3 py-1">
                     {data.number_of_seasons} season
                     {data.number_of_seasons > 1 ? "s" : ""}
                   </span>
                 ) : null}
 
                 {data?.number_of_episodes ? (
-                  <span className="rounded-full border border-[var(--border)] px-2 py-1">
+                  <span className="rounded-full border border-(--border) px-2 py-1">
                     {data.number_of_episodes} episodes
                   </span>
                 ) : null}
 
                 {data?.status ? (
-                  <span className="rounded-full border border-[var(--border)] px-3 py-1">
+                  <span className="rounded-full border border-(--border) px-3 py-1">
                     {data.status}
                   </span>
                 ) : null}
@@ -167,7 +167,7 @@ export default function MovieDetailsCard({
                   {data.genres.map((genre) => (
                     <span
                       key={genre.id}
-                      className="rounded-full bg-slate-500/10 px-3 py-1 text-sm text-[var(--text)]"
+                      className="rounded-full bg-slate-500/10 px-3 py-1 text-sm text-(--text)"
                     >
                       {genre.name}
                     </span>
@@ -176,11 +176,11 @@ export default function MovieDetailsCard({
               ) : null}
 
               <div className="rounded-3xl border border-(--border) bg-slate-500/5 p-4">
-                <h3 className="mb-2 text-lg font-semibold text-[var(--text-h)]">
+                <h3 className="mb-2 text-lg font-semibold text-(--text-h)">
                   Overview
                 </h3>
                 {isLoading ? (
-                  <p className="text-sm text-[var(--text)]">
+                  <p className="text-sm text-(--text)">
                     Loading details...
                   </p>
                 ) : error ? (
@@ -188,7 +188,7 @@ export default function MovieDetailsCard({
                     Unable to load the full details right now.
                   </p>
                 ) : (
-                  <p className="leading-7 text-[var(--text)]">
+                  <p className="leading-7 text-(--text)">
                     {data?.overview ||
                       item.overview ||
                       "No overview is available yet."}

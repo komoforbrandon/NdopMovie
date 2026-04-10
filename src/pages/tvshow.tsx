@@ -25,7 +25,7 @@ export default function TVShow() {
   });
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] px-4 pt-18 pb-28 text-[var(--text)] md:px-8 md:pt-28 md:pb-12">
+    <main className="min-h-screen bg-(--bg) px-4 pt-18 pb-28 text-(--text) md:px-8 md:pt-28 md:pb-12">
       <div className="mx-auto flex max-w-7xl flex-col gap-3">
         <section className="text-white shadow-2xl">
           <div className="max-w-3xl">

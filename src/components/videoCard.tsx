@@ -34,14 +34,14 @@ export default function VideoCard({
     <>
       <section className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-semibold text-[var(--text-h)]">{title}</h2>
+          <h2 className="text-2xl font-semibold text-(--text-h)">{title}</h2>
           <span className="rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-blue-500">
             {mediaType}
           </span>
         </div>
 
         {items.length === 0 ? (
-          <div className="rounded-3xl border border-dashed border-[var(--border)] bg-white/40 px-6 py-10 text-center text-sm text-[var(--text)] shadow-sm dark:bg-slate-900/30">
+          <div className="rounded-3xl border border-dashed border-(--border) bg-white/40 px-6 py-10 text-center text-sm text-(--text) shadow-sm dark:bg-slate-900/30">
             {emptyMessage}
           </div>
         ) : (
@@ -52,7 +52,7 @@ export default function VideoCard({
               return (
                 <article
                   key={`${mediaType}-${item.id}`}
-                  className="group overflow-hidden rounded-2xl border border-[var(--border)] bg-white/3 text-left shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl"
+                  className="group overflow-hidden rounded-2xl border border-(--border) bg-white/3 text-left shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl"
                 >
                   <div className="relative">
                     <button
@@ -94,12 +94,12 @@ export default function VideoCard({
                     className="w-full space-y-2 p-2 text-left"
                   >
                     <div className="flex items-start justify-between">
-                      <h3 className="line-clamp-2 w-full text-base font-semibold text-[var(--text-h)]">
+                      <h3 className="line-clamp-2 w-full text-base font-semibold text-(--text-h)">
                         {getMediaTitle(item)}
                       </h3>
                     </div>
                     <div className="flex items-start justify-between gap-3">
-                    <p className="text-sm text-[var(--text)]">
+                    <p className="text-sm text-(--text)">
                       {getReleaseDate(item) ? new Date(getReleaseDate(item)).getFullYear() : "Coming soon"}
                     </p>
                       <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-amber-400/15 px-2 py-1 text-xs font-semibold text-amber-600">
@@ -108,7 +108,7 @@ export default function VideoCard({
                       </span>
                     </div>
 
-                    <p className="line-clamp-3 text-sm text-[var(--text)] hidden">
+                    <p className="line-clamp-3 text-sm text-(--text) hidden">
                       {item.overview.trim() || "No overview available yet."}
                     </p>
                   </button>
