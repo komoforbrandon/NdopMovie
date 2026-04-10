@@ -136,7 +136,7 @@ export default function MovieDetailsCard({
                 ) : null}
 
                 {data?.number_of_episodes ? (
-                  <span className="rounded-full border border-[var(--border)] px-3 py-1">
+                  <span className="rounded-full border border-[var(--border)] px-2 py-1">
                     {data.number_of_episodes} episodes
                   </span>
                 ) : null}
