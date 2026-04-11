@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Clapperboard, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import Loader from "../components/Loader";
 import VideoCard from "../components/videoCard";
