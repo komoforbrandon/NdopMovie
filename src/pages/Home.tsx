@@ -106,12 +106,8 @@ export default function Home() {
           />
         )}
 
-        <section className="rounded-3xl border border-[var(--border)] bg-white/40 px-6 py-5 shadow-sm dark:bg-slate-900/30">
-          <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-blue-500">
-            <Clapperboard size={14} />
-            KBrand
-          </div>
-          <p className="mt-3 text-sm text-[var(--text)]">
+        <section className="rounded-2xl border border-(--border) bg-white/5 px-6 py-5 shadow-sm dark:bg-slate-900/30">
+          <p className="text-sm text-(--text) mx-auto py-2 flex justify-center">
            @Ndopflix All right reserved
           </p>
         </section>
