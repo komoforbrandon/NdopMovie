@@ -41,7 +41,7 @@ export default function VideoCard({
         </div>
 
         {items.length === 0 ? (
-          <div className="rounded-3xl border border-dashed border-(--border) bg-white/40 px-6 py-10 text-center text-sm text-(--text) shadow-sm dark:bg-slate-900/30">
+          <div className="rounded-3xl border border-dashed border-(--border) bg-white/10 px-6 py-10 text-center text-sm text-(--text) shadow-sm dark:bg-slate-900/30">
             {emptyMessage}
           </div>
         ) : (

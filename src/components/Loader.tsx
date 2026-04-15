@@ -24,7 +24,7 @@ export default function Loader({
         {Array.from({ length: count }, (_, index) => (
           <div
             key={`${badge}-${index}`}
-            className="overflow-hidden rounded-2xl border border-[var(--border)] bg-white shadow-sm dark:bg-slate-900"
+            className="overflow-hidden rounded-2xl border border-r(--border) bg-white shadow-sm dark:bg-slate-900"
           >
             <div className="h-42 animate-pulse bg-slate-200 md:h-70 dark:bg-slate-800" />
             <div className="space-y-3 p-4">
