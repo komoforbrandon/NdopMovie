@@ -1,15 +1,8 @@
 import { Star, Bookmark } from "lucide-react";
 import { useState } from "react";
-import type { MediaSummary, MediaType } from "../types/type";
+import type { MediaSummary, VideoCardProps} from "../types/type";
 import { useSavedMedia } from "../hooks/useSavedMedia";
 import MoviedetailsCard from "./MoviedetailsCard";
-
-type VideoCardProps = {
-  title: string;
-  items: MediaSummary[];
-  mediaType: MediaType;
-  emptyMessage?: string;
-};
 
 const imageBaseUrl = "https://image.tmdb.org/t/p/w500";
 
@@ -45,14 +38,16 @@ export default function VideoCard({
             {emptyMessage}
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          // <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          <div className="w-full overflow-x-scroll gap-4 py-2 -mx-2 px-2 no-scrollbar">
+           <div className="flex w-fit gap-4 overflow-x-scroll no-scrollbar">
             {items.map((item) => {
               const itemIsSaved = isSaved(item.id, mediaType);
 
               return (
                 <article
                   key={`${mediaType}-${item.id}`}
-                  className="group overflow-hidden rounded-2xl border border-(--border) bg-white/3 text-left shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl"
+                  className="group overflow-hidden w-42 rounded-2xl border border-(--border) bg-white/3 text-left shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl md:w-60"
                 >
                   <div className="relative">
                     <button
@@ -115,6 +110,7 @@ export default function VideoCard({
                 </article>
               );
             })}
+            </div>
           </div>
         )}
       </section>

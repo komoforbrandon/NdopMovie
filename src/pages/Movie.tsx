@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { Sparkles } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import VideoCard from "../components/videoCard";
+import HeroSection from "../components/herosection";
 import { FetchMoviesByGenre, FetchtmdbData, FetchTrendingMovies } from "../service/api";
 
 const movieGenres = [
@@ -58,10 +58,7 @@ export default function Movie() {
       <div className="mx-auto flex max-w-7xl flex-col gap-3">
         <section className="rounded-4xl text-white shadow-2xl">
           <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em]">
-              <Sparkles size={14} />
-              Movie hub
-            </span>
+            <HeroSection mediaType="movie" />
           </div>
         </section>
 

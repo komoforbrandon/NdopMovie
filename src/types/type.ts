@@ -30,6 +30,8 @@ export type MediaDetails = MediaSummary & {
   runtime?: number; // For movies
   number_of_seasons?: number; // For TV shows
   number_of_episodes?: number[]; // For TV shows
+  spoken_languages?: { english_name: string }[]; // For movies and TV shows
+  production_countries?: { name: string }[]; // For movies and TV shows
 };
 
 export type Movie = {
@@ -48,17 +50,6 @@ export type SearchProp ={
   initialValue?: string;
 };
 
-// export type MediaDetails = {
-//   id: number;
-//   title: string;
-//   overview: string;
-//   release_date: string;
-//   poster_path: string | null;
-//   backdrop_path: string | null;
-//   vote_average: number;
-//   genres: Genre[];
-// };
-
 export type TmdbResponse<T> = {
   page: number;
   results: T[];
@@ -70,6 +61,7 @@ export type VideoCardProps = {
   title: string;
   items: MediaSummary[];
   mediaType: MediaType;
+  emptyMessage?: string;
 };
 
 export type MovieDetailsCardProps = {

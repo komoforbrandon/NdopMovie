@@ -34,7 +34,6 @@ export default function MovieDetailsCard({
         : FetchTvShowDetails(String(item!.id)),
     enabled: Boolean(item),
   });
-  console.log('This is the data', data)
   if (!item) return null;
 
   const releaseDate = getMediaReleaseDate(data ?? item);

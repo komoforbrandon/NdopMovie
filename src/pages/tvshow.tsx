@@ -3,6 +3,7 @@ import { MonitorPlay } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import VideoCard from "../components/videoCard";
 import { FetchtrendingTvShows, FetchTvShows, SearchTvShows } from "../service/api";
+import HeroSection from "../components/herosection";
 
 export default function TVShow() {
   const [searchParams] = useSearchParams();
@@ -33,6 +34,7 @@ export default function TVShow() {
               <MonitorPlay size={14} />
               TV only
             </span>
+            <HeroSection mediaType="tv" />
           </div>
         </section>
 

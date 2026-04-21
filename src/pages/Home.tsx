@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { Sparkles } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import Loader from "../components/Loader";
 import VideoCard from "../components/videoCard";
+import HeroSection from "../components/herosection";
 import {
   FetchTrendingMovies,
   FetchtrendingTvShows,
@@ -38,15 +38,18 @@ export default function Home() {
       queryFn: FetchtrendingTvShows,
     });
 
+    console.log("Trending Movies Data:", trendingMovies);
+
   return (
     <main className="min-h-screen bg-(--bg) px-4 pt-18 pb-28 text-(--text) md:px-8 md:pt-3 md:pb-12">
       <div className="mx-auto flex max-w-7xl flex-col gap-3">
-        <section className="rounded-2xl bg-(--bg) shadow-2xl text-(--text)">
-          <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] border border-slate-900/10 dark:bg-slate-700/8">
+        <section className="rounded-2xl bg-(--bg) text-(--text)">
+          <div className="">
+            {/* <span className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] border border-slate-900/10 dark:bg-slate-700/8">
               <Sparkles size={14} />
               Featured today
-            </span>
+            </span> */}
+            <HeroSection />
           </div>
         </section>
 

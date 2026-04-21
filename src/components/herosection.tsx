@@ -1,7 +1,165 @@
-export default function HeroSection() {
+import failImage from "../assets/loadfail.png";
+import WatchModal from "./WatchModal";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
+import { FetchTrendingMovies, FetchMovieDetails } from "../service/api";
+import { Star, Download, Tv, Play, Film, Clock3 } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import type { MediaDetails } from "../types/type";
+
+const imageBaseUrl = "https://image.tmdb.org/t/p/w500";
+
+export default function HeroSection({ mediaType = "movie" }: { mediaType?: "movie" | "tv" }) {
+  const queryClient = useQueryClient();
+  const [index, setIndex] = useState(0);
+  const [isModalOpen, setModalIsOpen] = useState(false);
+  const { data: trendingMovies } = useQuery({
+    queryKey: ["trendingMovies"],
+    queryFn: FetchTrendingMovies,
+  });
+  const movies = useMemo(() => trendingMovies?.results || [], [trendingMovies]);
+
+  useEffect(() => {
+    if (!movies.length || isModalOpen) return;
+    const interval = setInterval(() => {
+      setIndex((prevIndex) => (prevIndex + 1) % movies.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [movies, isModalOpen]);
+
+  useEffect(() => {
+    if (movies.length === 0) return;
+    const nextIndex = (index + 1) % movies.length;
+    const nextMovie = movies[nextIndex];
+
+    queryClient.prefetchQuery({
+      queryKey: ["movieDetails", "movie", nextMovie.id],
+      queryFn: () => FetchMovieDetails(String(nextMovie.id)),
+    });
+  }, [movies, index, queryClient]);
+
+  const currentMovie = movies[index];
+
+  const { data: movieDetails } = useQuery({
+    queryKey: ["movieDetails", "movie", currentMovie?.id],
+    queryFn: () => FetchMovieDetails(String(currentMovie?.id)),
+    enabled: !!currentMovie,
+  });
+
+  const item: MediaDetails | null = movieDetails ?? currentMovie ?? null;
+
   return (
-    <div className="flex items-center justify-center h-screen">
-      <h1 className="text-4xl font-bold">Welcome to MovieVerse</h1>
+    <div className="static inset-0 z-100 flex items-center justify-center bg-slate-950/10 backdrop-blur-sm md:h-fit md:w-full md:rounded-md">
+      <div className="relative h-64 w-full overflow-hidden bg-(--bg) md:h-fit md:w-full rounded-sm md:rounded-md">
+        {item?.backdrop_path ? (
+          <div className="relative h-64 w-full overflow-hidden md:h-140">
+            <img
+              src={
+                item.backdrop_path
+                  ? `${imageBaseUrl}${item.backdrop_path}`
+                  : failImage
+              }
+              alt={item.title ?? item.name ?? "Untitled"}
+              className="h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-linear-to-t from-(--bg) via-slate-950/30 to-transparent " />
+          </div>
+        ) : null}
+
+        <div className="space-y-6 px-6 py-6 sm:px-8">
+          <div className="flex flex-col gap-6 md:flex-col">
+            <div className="absolute left-4 bottom-4 w-auto md:left-8 md:bottom-12 md:w-full">
+              <div className="flex flex-row h-80 items-end justify-start gap-4">
+                <img
+                  src={`${item?.poster_path ? `${imageBaseUrl}${item.poster_path}` : failImage}`}
+                  alt={item?.title ?? item?.name ?? "Untitled"}
+                  className="w-30 rounded-3xl object-cover shadow-lg md:w-60"
+                />
+                <div className="m-2">
+                  <div>
+                    <h2 className="text-[28px] font-bold  md:text-3xl text-blue-500/70">
+                      {item?.title ?? item?.name ?? "Untitled"}
+                    </h2>
+                    {item?.tagline ? (
+                      <p className="mt-1 text-md italic text-(--text) hidden md:block">
+                        {item?.tagline}
+                      </p>
+                    ) : null}
+                  </div>
+
+                  <div className="flex flex-wrap gap-3 text-sm mt-1 text-(--text)">
+                    {item?.runtime ? (
+                      <span className="items-center gap-2 font-medium rounded-full border border-(--border) px-3 py-1 hidden md:inline-flex">
+                        <Clock3 size={16} />
+                        {Math.floor(item.runtime / 60)}h {item.runtime % 60}m
+                      </span>
+                    ) : null}
+
+                    {item?.spoken_languages?.length ? (
+                      <span className="items-center gap-2 rounded-full border border-(--border) px-3 py-1 hidden md:inline-flex">
+                        {item?.spoken_languages[0].english_name}
+                      </span>
+                    ) : null}
+
+                    {item?.production_countries?.length ? (
+                      <span className="items-center gap-2 rounded-full border border-(--border) px-3 py-1 hidden md:inline-flex">
+                        {item?.production_countries[0].name}
+                      </span>
+                    ) : null}
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-3 mt-2 text-sm text-(--text)">
+                    <span
+                      onClick={() => setModalIsOpen(true)}
+                      className="inline-flex items-center gap-1 rounded-full cursor-pointer bg-blue-500/10 p-2 font-medium text-blue-500 md:py-2 md:px-3"
+                    >
+                      <Play size={21} fill="currentColor" />
+                      Play
+                      <WatchModal
+                        iframelink={`https://vidsrc-embed.ru/embed/movie?tmdb=${item?.id ?? item?.id}&sub_url=https%3A%2F%2Fvidsrc.me%2Fsample.srt&autoplay=1`}
+                        onClose={() => setModalIsOpen(false)}
+                        isOpen={isModalOpen}
+                      />
+                    </span>
+                    <span className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 px-3 py-1 font-medium text-blue-500 md:py-2 md:px-3">
+                      {mediaType === "movie" ? (
+                        <Film size={20} />
+                      ) : (
+                        <Tv size={20} />
+                      )}
+                      {mediaType === "movie" ? "Movie" : "TV"}
+                    </span>
+                    <span className="inline-flex items-center gap-2 rounded-full bg-amber-400/15 px-3 py-1 font-medium text-amber-600 md:py-2 md:px-3">
+                      <Star size={16} fill="currentColor" />
+                      {item?.vote_average.toFixed(1)}
+                    </span>
+                    <a
+                      href={`https://vidsrc-embed.ru/embed/movie?tmdb=${item?.id ?? item?.id}&sub_url=https%3A%2F%2Fvidsrc.me%2Fsample.srt&autoplay=1`}
+                      className="items-center gap-2 rounded-full bg-blue-500/10 p-3 font-medium text-blue-500 hidden md:inline-flex"
+                      download={`https://vidsrc-embed.ru/embed/movie?tmdb=${item?.id ?? item?.id}&sub_url=https%3A%2F%2Fvidsrc.me%2Fsample.srt&autoplay=1.mp4`}
+                    >
+                      <Download size={20} />
+                    </a>
+
+                    {item?.release_date ? (
+                      <span className="hidden md:inline-flex">{new Date(item.release_date).toDateString()}</span>
+                    ) : null}
+                    {item?.runtime ? (
+                      <span className="items-center gap-2 font-bold rounded-full border border-(--border) px-3 py-1 inline-flex md:hidden">
+                        <Clock3 size={16} />
+                        {Math.floor(item.runtime / 60)}h {item.runtime % 60}m
+                      </span>
+                    ) : null}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex-1 space-y-4">
+              <div className="space-y-3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
