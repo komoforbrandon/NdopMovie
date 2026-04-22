@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import Loader from "../components/Loader";
 import VideoCard from "../components/videoCard";
 import HeroSection from "../components/herosection";
+import Footer from "../components/footer";
 import {
   FetchTrendingMovies,
   FetchtrendingTvShows,
@@ -41,7 +42,7 @@ export default function Home() {
     console.log("Trending Movies Data:", trendingMovies);
 
   return (
-    <main className="min-h-screen bg-(--bg) px-4 pt-18 pb-28 text-(--text) md:px-8 md:pt-3 md:pb-12">
+    <main className="min-h-screen bg-(--bg) px-4 pt-18 pb-19 text-(--text) md:px-8 md:pt-3 md:pb-12">
       <div className="mx-auto flex max-w-7xl flex-col gap-3">
         {searchTerm ? (
           <>
@@ -110,11 +111,7 @@ export default function Home() {
           </>
         )}
 
-        <section className="rounded-2xl border border-(--border) bg-white/5 px-6 py-5 shadow-sm dark:bg-slate-900/30">
-          <p className="text-sm text-(--text) mx-auto py-2 flex justify-center">
-           @Ndopflix All right reserved
-          </p>
-        </section>
+          <Footer />
       </div>
     </main>
   );

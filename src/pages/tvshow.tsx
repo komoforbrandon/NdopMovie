@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import VideoCard from "../components/videoCard";
+import Footer from "../components/footer";
 import {
   FetchtrendingTvShows,
   FetchTvShows,
@@ -37,7 +38,7 @@ export default function TVShow() {
   });
 
   return (
-    <main className="min-h-screen bg-(--bg) px-4 pt-18 pb-28 text-(--text) md:px-8 md:pt-3 md:pb-12">
+    <main className="min-h-screen bg-(--bg) px-4 pt-18 pb-19 text-(--text) md:px-8 md:pt-3 md:pb-12">
       <div className="mx-auto flex max-w-7xl flex-col gap-3">
         {searchTerm ? (
           <VideoCard
@@ -86,6 +87,7 @@ export default function TVShow() {
           </>
         )}
       </div>
+      <Footer />
     </main>
   );
 }
