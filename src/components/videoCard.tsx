@@ -1,5 +1,6 @@
 import { Star, Bookmark } from "lucide-react";
 import { useState } from "react";
+import loadImg from "../assets/loadfail.png";
 import type { MediaSummary, VideoCardProps} from "../types/type";
 import { useSavedMedia } from "../hooks/useSavedMedia";
 import MoviedetailsCard from "./MoviedetailsCard";
@@ -62,9 +63,11 @@ export default function VideoCard({
                           className="h-42 w-full object-cover md:h-70"
                         />
                       ) : (
-                        <div className="flex h-auto w-full items-center justify-center bg-slate-200 px-4 text-center text-sm font-medium text-slate-500 dark:bg-slate-800 dark:text-slate-300">
-                          Poster unavailable
-                        </div>
+                        <img
+                          src={loadImg}
+                          alt={getMediaTitle(item)}
+                          className="h-42 w-full object-cover md:h-70"
+                        />
                       )}
                     </button>
 

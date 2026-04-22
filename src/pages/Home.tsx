@@ -43,16 +43,6 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-(--bg) px-4 pt-18 pb-28 text-(--text) md:px-8 md:pt-3 md:pb-12">
       <div className="mx-auto flex max-w-7xl flex-col gap-3">
-        <section className="rounded-2xl bg-(--bg) text-(--text)">
-          <div className="">
-            {/* <span className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] border border-slate-900/10 dark:bg-slate-700/8">
-              <Sparkles size={14} />
-              Featured today
-            </span> */}
-            <HeroSection />
-          </div>
-        </section>
-
         {searchTerm ? (
           <>
             {isMovieSearchLoading ? (
@@ -77,36 +67,47 @@ export default function Home() {
               />
             )}
           </>
-        ) : null}
-
-        {isTrendingMoviesLoading ? (
-          <Loader title="Loading trending movies" badge="movie" />
         ) : (
-          <VideoCard
-            title="Trending Movies"
-            items={trendingMovies?.results ?? []}
-            mediaType="movie"
-            emptyMessage={
-              trendingMoviesError
-                ? "Trending movies could not be loaded right now."
-                : "No trending movies are available right now."
-            }
-          />
-        )}
+          <>
+          <section className="rounded-2xl bg-(--bg) text-(--text)">
+          <div className="">
+            {/* <span className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] border border-slate-900/10 dark:bg-slate-700/8">
+              <Sparkles size={14} />
+              Featured today
+            </span> */}
+            <HeroSection />
+          </div>
+        </section>
+            {isTrendingMoviesLoading ? (
+              <Loader title="Loading trending movies" badge="movie" />
+            ) : (
+              <VideoCard
+                title="Trending Movies"
+                items={trendingMovies?.results ?? []}
+                mediaType="movie"
+                emptyMessage={
+                  trendingMoviesError
+                    ? "Trending movies could not be loaded right now."
+                    : "No trending movies are available right now."
+                }
+              />
+            )}
 
-        {isTrendingTvShowsLoading ? (
-          <Loader title="Loading trending TV shows" badge="tv" />
-        ) : (
-          <VideoCard
-            title="Trending TV Shows"
-            items={trendingTvShows?.results ?? []}
-            mediaType="tv"
-            emptyMessage={
-              trendingTvShowsError
-                ? "Trending TV shows could not be loaded right now."
-                : "No trending TV shows are available right now."
-            }
-          />
+            {isTrendingTvShowsLoading ? (
+              <Loader title="Loading trending TV shows" badge="tv" />
+            ) : (
+              <VideoCard
+                title="Trending TV Shows"
+                items={trendingTvShows?.results ?? []}
+                mediaType="tv"
+                emptyMessage={
+                  trendingTvShowsError
+                    ? "Trending TV shows could not be loaded right now."
+                    : "No trending TV shows are available right now."
+                }
+              />
+            )}
+          </>
         )}
 
         <section className="rounded-2xl border border-(--border) bg-white/5 px-6 py-5 shadow-sm dark:bg-slate-900/30">

@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import type { MediaSummary, MovieDetailsCardProps } from "../types/type";
 import { FetchMovieDetails, FetchTvShowDetails } from "../service/api";
 import { Star, ArrowLeft, Tv, Play, Film, Clock3, Download } from "lucide-react";
+import FailImage from "../assets/loadfail.png";
 import WatchModal from "./WatchModal";
 import { useState } from "react";
 
@@ -74,9 +75,11 @@ export default function MovieDetailsCard({
                   />
                 </div>
               ) : (
-                <div className="flex h-80 items-center justify-start rounded-3xl bg-slate-200 px-4 text-center text-sm text-slate-500 dark:bg-slate-800 dark:text-slate-300">
-                  Poster unavailable
-                </div>
+                <img
+                    src={FailImage}
+                    alt={title}
+                    className="w-60 rounded-3xl object-cover shadow-lg"
+                  />
               )}
             </div>
 

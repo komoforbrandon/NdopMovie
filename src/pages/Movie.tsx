@@ -2,7 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import VideoCard from "../components/videoCard";
 import HeroSection from "../components/herosection";
-import { FetchMoviesByGenre, FetchtmdbData, FetchTrendingMovies } from "../service/api";
+import {
+  FetchMoviesByGenre,
+  FetchtmdbData,
+  FetchTrendingMovies,
+} from "../service/api";
 
 const movieGenres = [
   { id: 28, title: "Action Movies" },
@@ -21,7 +25,11 @@ export default function Movie() {
     enabled: Boolean(searchTerm),
   });
 
-  const { data: trendingMovies, isLoading: isTrendingLoading, error: trendingError } = useQuery({
+  const {
+    data: trendingMovies,
+    isLoading: isTrendingLoading,
+    error: trendingError,
+  } = useQuery({
     queryKey: ["trending-movies"],
     queryFn: FetchTrendingMovies,
   });
@@ -56,12 +64,6 @@ export default function Movie() {
   return (
     <main className="min-h-screen bg-(--bg) px-4 pt-18 pb-28 text-(--text) md:px-8 md:pt-3 md:pb-12">
       <div className="mx-auto flex max-w-7xl flex-col gap-3">
-        <section className="rounded-4xl text-white">
-          <div className="w-full overflow-hidden">
-            <HeroSection mediaType="movie" />
-          </div>
-        </section>
-
         {searchTerm ? (
           <VideoCard
             title={`Search Results for "${searchTerm}"`}
@@ -73,34 +75,41 @@ export default function Movie() {
                 : `No movies matched "${searchTerm}". Try another title.`
             }
           />
-        ) : null}
+        ) : (
+          <>
+            <section className="rounded-4xl text-white">
+              <div className="w-full overflow-hidden">
+                <HeroSection mediaType="movie" />
+              </div>
+            </section>
+            <VideoCard
+              title="Trending Movies"
+              items={trendingMovies?.results ?? []}
+              mediaType="movie"
+              emptyMessage={
+                isTrendingLoading
+                  ? "Loading trending movies..."
+                  : trendingError
+                    ? "Trending movies could not be loaded right now."
+                    : "No trending movies are available yet."
+              }
+            />
 
-        <VideoCard
-          title="Trending Movies"
-          items={trendingMovies?.results ?? []}
-          mediaType="movie"
-          emptyMessage={
-            isTrendingLoading
-              ? "Loading trending movies..."
-              : trendingError
-                ? "Trending movies could not be loaded right now."
-                : "No trending movies are available yet."
-          }
-        />
-
-        {genreSections.map(({ title, query }) => (
-          <VideoCard
-            key={title}
-            title={title}
-            items={query.data?.results ?? []}
-            mediaType="movie"
-            emptyMessage={
-              query.isLoading
-                ? `Loading ${title.toLowerCase()}...`
-                : `No ${title.toLowerCase()} are available right now.`
-            }
-          />
-        ))}
+            {genreSections.map(({ title, query }) => (
+              <VideoCard
+                key={title}
+                title={title}
+                items={query.data?.results ?? []}
+                mediaType="movie"
+                emptyMessage={
+                  query.isLoading
+                    ? `Loading ${title.toLowerCase()}...`
+                    : `No ${title.toLowerCase()} are available right now.`
+                }
+              />
+            ))}
+          </>
+        )}
       </div>
     </main>
   );

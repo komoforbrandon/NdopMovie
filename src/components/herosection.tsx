@@ -118,7 +118,7 @@ export default function HeroSection({
                     ) : null}
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-2 mt-1 text-sm text-(--text)">
+                  <div className="flex flex-wrap items-center gap-3 mt-1 text-sm text-(--text)">
                     <span
                       onClick={() => setModalIsOpen(true)}
                       className="inline-flex items-center gap-1 rounded-full cursor-pointer bg-blue-500/10 py-1 px-2 font-medium text-blue-500 md:py-2 md:px-3"
