@@ -1,20 +1,30 @@
 import failImage from "../assets/loadfail.png";
 import WatchModal from "./WatchModal";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
-import { FetchTrendingMovies, FetchMovieDetails } from "../service/api";
-import { Star, Download, Tv, Play, Film, Clock3 } from "lucide-react";
+import {
+  FetchTrendingMovies,
+  FetchMovieDetails,
+  FetchtrendingTvShows,
+  FetchTvShowDetails,
+} from "../service/api";
+import { Star, Download, Tv, Play, Film, Clock3, Globe } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import type { MediaDetails } from "../types/type";
 
 const imageBaseUrl = "https://image.tmdb.org/t/p/w500";
 
-export default function HeroSection({ mediaType = "movie" }: { mediaType?: "movie" | "tv" }) {
+export default function HeroSection({
+  mediaType = "movie",
+}: {
+  mediaType?: "movie" | "tv";
+}) {
   const queryClient = useQueryClient();
   const [index, setIndex] = useState(0);
   const [isModalOpen, setModalIsOpen] = useState(false);
   const { data: trendingMovies } = useQuery({
     queryKey: ["trendingMovies"],
-    queryFn: FetchTrendingMovies,
+    queryFn: () =>
+      mediaType === "movie" ? FetchTrendingMovies() : FetchtrendingTvShows(),
   });
   const movies = useMemo(() => trendingMovies?.results || [], [trendingMovies]);
 
@@ -33,15 +43,15 @@ export default function HeroSection({ mediaType = "movie" }: { mediaType?: "movi
 
     queryClient.prefetchQuery({
       queryKey: ["movieDetails", "movie", nextMovie.id],
-      queryFn: () => FetchMovieDetails(String(nextMovie.id)),
+      queryFn: () => mediaType === "movie" ? FetchMovieDetails(String(nextMovie.id)) : FetchTvShowDetails(String(nextMovie.id)),
     });
-  }, [movies, index, queryClient]);
+  }, [movies, mediaType, index, queryClient]);
 
   const currentMovie = movies[index];
 
   const { data: movieDetails } = useQuery({
     queryKey: ["movieDetails", "movie", currentMovie?.id],
-    queryFn: () => FetchMovieDetails(String(currentMovie?.id)),
+    queryFn: () => mediaType === "movie" ? FetchMovieDetails(String(currentMovie?.id)) : FetchTvShowDetails(String(currentMovie?.id)),
     enabled: !!currentMovie,
   });
 
@@ -49,9 +59,9 @@ export default function HeroSection({ mediaType = "movie" }: { mediaType?: "movi
 
   return (
     <div className="static inset-0 z-100 flex items-center justify-center bg-slate-950/10 backdrop-blur-sm md:h-fit md:w-full md:rounded-md">
-      <div className="relative h-64 w-full overflow-hidden bg-(--bg) md:h-fit md:w-full rounded-sm md:rounded-md">
+      <div className="relative h-68 w-full overflow-hidden bg-(--bg) md:h-fit md:w-full rounded-sm md:rounded-md">
         {item?.backdrop_path ? (
-          <div className="relative h-64 w-full overflow-hidden md:h-140">
+          <div className="relative h-68 w-full overflow-hidden md:h-140">
             <img
               src={
                 item.backdrop_path
@@ -76,7 +86,7 @@ export default function HeroSection({ mediaType = "movie" }: { mediaType?: "movi
                 />
                 <div className="m-2">
                   <div>
-                    <h2 className="text-[28px] font-bold  md:text-3xl text-blue-500/70">
+                    <h2 className="text-[25px] font-bold  md:text-4xl text-blue-500/70">
                       {item?.title ?? item?.name ?? "Untitled"}
                     </h2>
                     {item?.tagline ? (
@@ -88,29 +98,30 @@ export default function HeroSection({ mediaType = "movie" }: { mediaType?: "movi
 
                   <div className="flex flex-wrap gap-3 text-sm mt-1 text-(--text)">
                     {item?.runtime ? (
-                      <span className="items-center gap-2 font-medium rounded-full border border-(--border) px-3 py-1 hidden md:inline-flex">
+                      <span className="items-center gap-1 font-medium rounded-full border border-(--border) px-3 py-1 hidden md:inline-flex">
                         <Clock3 size={16} />
                         {Math.floor(item.runtime / 60)}h {item.runtime % 60}m
                       </span>
                     ) : null}
 
                     {item?.spoken_languages?.length ? (
-                      <span className="items-center gap-2 rounded-full border border-(--border) px-3 py-1 hidden md:inline-flex">
+                      <span className="items-center gap-1 rounded-full border border-(--border) px-3 py-1 hidden md:inline-flex">
                         {item?.spoken_languages[0].english_name}
                       </span>
                     ) : null}
 
                     {item?.production_countries?.length ? (
-                      <span className="items-center gap-2 rounded-full border border-(--border) px-3 py-1 hidden md:inline-flex">
+                      <span className="items-center gap-1 rounded-full border border-(--border) px-3 py-1 hidden md:inline-flex">
+                        <Globe size={16} />
                         {item?.production_countries[0].name}
                       </span>
                     ) : null}
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-3 mt-2 text-sm text-(--text)">
+                  <div className="flex flex-wrap items-center gap-2 mt-1 text-sm text-(--text)">
                     <span
                       onClick={() => setModalIsOpen(true)}
-                      className="inline-flex items-center gap-1 rounded-full cursor-pointer bg-blue-500/10 p-2 font-medium text-blue-500 md:py-2 md:px-3"
+                      className="inline-flex items-center gap-1 rounded-full cursor-pointer bg-blue-500/10 py-1 px-2 font-medium text-blue-500 md:py-2 md:px-3"
                     >
                       <Play size={21} fill="currentColor" />
                       Play
@@ -120,7 +131,7 @@ export default function HeroSection({ mediaType = "movie" }: { mediaType?: "movi
                         isOpen={isModalOpen}
                       />
                     </span>
-                    <span className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 px-3 py-1 font-medium text-blue-500 md:py-2 md:px-3">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-blue-500/10 px-2 py-1 font-medium text-blue-500 md:py-2 md:px-3">
                       {mediaType === "movie" ? (
                         <Film size={20} />
                       ) : (
@@ -128,7 +139,7 @@ export default function HeroSection({ mediaType = "movie" }: { mediaType?: "movi
                       )}
                       {mediaType === "movie" ? "Movie" : "TV"}
                     </span>
-                    <span className="inline-flex items-center gap-2 rounded-full bg-amber-400/15 px-3 py-1 font-medium text-amber-600 md:py-2 md:px-3">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-amber-400/15 px-3 py-1 font-medium text-amber-600 md:py-2 md:px-3">
                       <Star size={16} fill="currentColor" />
                       {item?.vote_average.toFixed(1)}
                     </span>
@@ -141,10 +152,12 @@ export default function HeroSection({ mediaType = "movie" }: { mediaType?: "movi
                     </a>
 
                     {item?.release_date ? (
-                      <span className="hidden md:inline-flex">{new Date(item.release_date).toDateString()}</span>
+                      <span className="hidden md:inline-flex">
+                        {new Date(item.release_date).toDateString()}
+                      </span>
                     ) : null}
                     {item?.runtime ? (
-                      <span className="items-center gap-2 font-bold rounded-full border border-(--border) px-3 py-1 inline-flex md:hidden">
+                      <span className="items-center gap-1 font-bold rounded-full border border-(--border) px-2 py-1 inline-flex md:hidden">
                         <Clock3 size={16} />
                         {Math.floor(item.runtime / 60)}h {item.runtime % 60}m
                       </span>

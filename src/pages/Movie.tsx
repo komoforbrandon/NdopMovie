@@ -56,8 +56,8 @@ export default function Movie() {
   return (
     <main className="min-h-screen bg-(--bg) px-4 pt-18 pb-28 text-(--text) md:px-8 md:pt-3 md:pb-12">
       <div className="mx-auto flex max-w-7xl flex-col gap-3">
-        <section className="rounded-4xl text-white shadow-2xl">
-          <div className="max-w-3xl">
+        <section className="rounded-4xl text-white">
+          <div className="w-full overflow-hidden">
             <HeroSection mediaType="movie" />
           </div>
         </section>

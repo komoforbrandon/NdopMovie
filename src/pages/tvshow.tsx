@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { MonitorPlay } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import VideoCard from "../components/videoCard";
 import { FetchtrendingTvShows, FetchTvShows, SearchTvShows } from "../service/api";
@@ -28,12 +27,8 @@ export default function TVShow() {
   return (
     <main className="min-h-screen bg-(--bg) px-4 pt-18 pb-28 text-(--text) md:px-8 md:pt-3 md:pb-12">
       <div className="mx-auto flex max-w-7xl flex-col gap-3">
-        <section className="text-white shadow-2xl">
-          <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em]">
-              <MonitorPlay size={14} />
-              TV only
-            </span>
+        <section className="text-white">
+          <div className="w-full">
             <HeroSection mediaType="tv" />
           </div>
         </section>
