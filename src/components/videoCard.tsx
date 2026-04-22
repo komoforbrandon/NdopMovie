@@ -48,7 +48,7 @@ export default function VideoCard({
               return (
                 <article
                   key={`${mediaType}-${item.id}`}
-                  className="group overflow-hidden w-42 rounded-2xl border border-(--border) bg-white/3 text-left shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl md:w-60"
+                  className="group overflow-hidden w-41 rounded-2xl border border-(--border) bg-white/3 text-left shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl md:w-60"
                 >
                   <div className="relative">
                     <button
@@ -89,7 +89,7 @@ export default function VideoCard({
                   <button
                     type="button"
                     onClick={() => setSelectedItem(item)}
-                    className="w-full space-y-2 p-2 text-left"
+                    className="w-full space-y-1 px-2 py-1 text-left md:space-y-2 md:p-2"
                   >
                     <div className="flex items-start justify-between">
                       <h3 className="line-clamp-2 w-full text-base font-semibold text-(--text-h)">
