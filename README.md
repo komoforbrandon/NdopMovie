@@ -32,6 +32,9 @@ npm run dev
 ```
 5. Open your browser and navigate to `http://localhost:5173` to see the app
 
+6. Open the deployment preview link provided by Vercel to see the live version of the app 
+[NdopFlix](https://ndop-movie.vercel.app/)
+
 
 ## Features
 - Browse popular movies and TV shows
