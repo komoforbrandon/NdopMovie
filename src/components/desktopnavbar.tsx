@@ -24,7 +24,7 @@ export default function DesktopNavbar() {
   }
 
   function handleSearch(query: string) {
-    navigate(`${getSearchPath()}?query=${encodeURIComponent(query)}`);
+     navigate(`${getSearchPath()}?query=${encodeURIComponent(query)}`);
   }
 
   const navItems = [

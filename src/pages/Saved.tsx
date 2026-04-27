@@ -34,7 +34,9 @@ export default function SavedMovies() {
           emptyMessage="Your saved TV shows will show up here after you bookmark them."
         />
       </div>
-      <Footer />
+      <div className="hidden md:block">
+        <Footer />
+      </div>
     </main>
   )
 }

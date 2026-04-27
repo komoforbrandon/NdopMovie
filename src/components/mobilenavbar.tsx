@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { HomeIcon,Bookmark,User,Clapperboard,Search, Monitor, X,} from "lucide-react";
+import { HomeIcon,Bookmark,Info,Clapperboard,Search, Monitor, X,} from "lucide-react";
 import { useState } from "react";
 import ndopflix from "../assets/ndopflix.png";
 import SearchBar from "./search";
@@ -39,7 +39,7 @@ export default function MobileNavbar() {
     { id: "movies", label: "Movies", icon: <Clapperboard />, path: "/movies" },
     { id: "tv", label: "TV Show", icon: <Monitor />, path: "/tv" },
     { id: "saved", label: "Saved", icon: <Bookmark />, path: "/saved" },
-    { id: "profile", label: "Profile", icon: <User />, path: "/profile" },
+    { id: "profile", label: "About", icon: <Info />, path: "/profile" },
   ];
 
 

@@ -112,7 +112,9 @@ export default function Movie() {
           </>
         )}
       </div>
-      <Footer />
+      <div className="hidden md:block">
+        <Footer />
+      </div>
     </main>
   );
 }

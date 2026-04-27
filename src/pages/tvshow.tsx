@@ -87,7 +87,9 @@ export default function TVShow() {
           </>
         )}
       </div>
-      <Footer />
+      <div className="hidden md:block">
+        <Footer />
+      </div>
     </main>
   );
 }

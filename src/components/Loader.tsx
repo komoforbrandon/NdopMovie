@@ -17,7 +17,13 @@ export default function Loader({
           {badge}
         </span>
       </div>
+      {/* Hero section */}
+      <div className="h-64 animate-pulse rounded-2xl bg-slate-200 dark:bg-slate-800" />
 
+      <div className="flex items-center justify-between">
+        <div className="h-6 w-32 animate-pulse rounded-full bg-slate-200 dark:bg-slate-800" />
+        <div className="h-6 w-20 animate-pulse rounded-full bg-slate-200 dark:bg-slate-800" />
+      </div>
       <div className="sr-only">{title}</div>
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">

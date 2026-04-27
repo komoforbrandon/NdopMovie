@@ -46,7 +46,15 @@ export default function Home() {
     queryFn: FetchtrendingTvShows,
   });
 
-  console.log("Trending Movies Data:", trendingMovies);
+  if(isMovieSearchLoading || isTvSearchLoading || isTrendingMoviesLoading || isTrendingTvShowsLoading) {
+    return (
+      <main className="min-h-screen bg-(--bg) px-0 pt-14 pb-16 text-(--text) md:px-8 md:pt-3 md:pb-12">
+        <div className="mx-auto flex max-w-7xl flex-col gap-3">
+          <Loader title="Loading home page" badge="home" />
+        </div>
+      </main>
+    )
+  }
 
   return (
     <main className="min-h-screen bg-(--bg) px-0 pt-14 pb-16 text-(--text) md:px-8 md:pt-3 md:pb-12">
@@ -123,8 +131,9 @@ export default function Home() {
             </section>
           </>
         )}
-
-        <Footer />
+        <div className="hidden md:block">
+           <Footer />
+        </div>
       </div>
     </main>
   );
