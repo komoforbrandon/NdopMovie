@@ -12,7 +12,7 @@ export default function SavedMovies() {
       <div className="mx-auto flex max-w-full flex-col gap-3 mb-5">
 
         <VideoCard
-          title="Saved Movies"
+          title="Saved Movies" 
           items={savedMovies}
           mediaType="movie"
           emptyMessage="Your saved movies will show up here after you bookmark them."
