@@ -1,10 +1,11 @@
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { User } from "lucide-react";
-import ndopflixlogo from "../assets/ndopflix.png";
+import { User, Search } from "lucide-react";
 import SearchBar from "./search";
 import { ThemeToggle, useTheme } from "./theme";
+import { useState } from "react";
 
 export default function DesktopNavbar() {
+  const [showSearch, setShowSearch] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -31,7 +32,7 @@ export default function DesktopNavbar() {
     { id: "home", label: "Home",  path: "/" },
     { id: "movies", label: "Movies", path: "/movies" },
     { id: "tv", label: "TV Shows", path: "/tv" },
-    { id: "saved", label: "Saved", path: "/saved" },
+    { id: "saved", label: "My List", path: "/saved" },
   ];
 
   return (
@@ -42,30 +43,33 @@ export default function DesktopNavbar() {
       }
     `}>
     <nav
-      className={` items-center justify-between w-full  py-2 md:container md:max-w-7xl md:mx-auto md:flex`}
+      className={` items-center justify-between w-full  py-2 md:container md:max-w-full md:mx-auto md:flex`}
     >
       <div className="flex items-center space-x-4">
-        <img src={ndopflixlogo} alt="Ndopflix Logo" className="h-12 w-auto mr-3" />
-        <span className="text-2xl font-bold text-blue-600"><span className="text-red-600">Ndop</span>flix</span>
+        <span className="text-2xl font-bold text-red-600"><span className="text-red-600">Net</span>Flix</span>
           {navItems.map((item) => (
           <Link
             key={item.id}
             to={item.path}
-            className={`flex items-center space-x-1 font-medium transition-colors duration-200 ease-in-out hover:underline hover:underline-offset-4 ${
+            className={`flex items-center space-x-1 font-bold transition-colors duration-200 ease-in-out active:underline active:underline-offset-4 focus:border-b-3 focus:border-red-500 ${
               location.pathname === item.path
-                ? "text-blue-500"
+                ? ""
                 : isDark
-                  ? "text-gray-300 hover:text-blue-400"
-                  : "text-gray-600 hover:text-blue-600"
+                  ? "text-gray-300 hover:text-red-400  focus:text-(--text)"
+                  : "text-gray-600 hover:text-red-600 focus:text-(--text)"
             }`}
           >
             <span>{item.label}</span>
           </Link>
         ))}
       </div>
-         <SearchBar OnSearch={handleSearch} initialValue={searchTerm} />
+
       <div className="flex space-x-6">
         <div className="flex items-center space-x-4">
+        <div className="flex transform transition-transform duration-200 ease-in-out">
+         {showSearch && <SearchBar OnSearch={handleSearch} initialValue={searchTerm} />}
+        </div>
+          <Search size={23} onClick={() => setShowSearch(!showSearch)} />
           <ThemeToggle isDark={isDark} onToggle={toggleTheme} />
           <Link
             to="/profile"

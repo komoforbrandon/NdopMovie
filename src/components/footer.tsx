@@ -5,18 +5,27 @@ export default function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="bg-white/5 max-w-7xl mx-auto text-gray-300 px-4 mt-2 md:rounded-md py-5 rounded-md">
+        <footer className="bg-white/5 max-w-full mx-auto text-gray-300 px-4 mt-2 md:rounded-md py-5 rounded-md">
             <div className="mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-                    {/* About Section */}
-                    <div>
-                        <h3 className="text-white font-bold text-lg mb-2">About Ndopflix</h3>
-                        <p className="text-sm text-gray-400">
-                            Your ultimate destination for movies and TV shows. Explore thousands of titles and find your next favorite entertainment.
-                        </p>
+                  <div>
+                        <h3 className="text-white font-bold text-lg mb-2">Quick Links</h3>
+                        <ul className="space-y-2 text-sm">
+                            <li>
+                                <Link to="/#" className="text-gray-400 hover:text-white transition">Home</Link>
+                            </li>
+                            <li>
+                                <Link to="/movies#trending" className="text-gray-400 hover:text-white transition">Movies</Link>
+                            </li>
+                            <li>
+                                <Link to="/tvshow#trending" className="text-gray-400 hover:text-white transition">TV Shows</Link>
+                            </li>
+                            <li>
+                                <Link to="/saved#" className="text-gray-400 hover:text-white transition">My Saved</Link>
+                            </li>
+                        </ul>
                     </div>
 
-                    {/* Quick Links */}
                     <div>
                         <h3 className="text-white font-bold text-lg mb-2">Quick Links</h3>
                         <ul className="space-y-2 text-sm">
@@ -35,7 +44,24 @@ export default function Footer() {
                         </ul>
                     </div>
 
-                    {/* Get Help */}
+                     <div>
+                        <h3 className="text-white font-bold text-lg mb-2">Quick Links</h3>
+                        <ul className="space-y-2 text-sm">
+                            <li>
+                                <Link to="/#" className="text-gray-400 hover:text-white transition">Home</Link>
+                            </li>
+                            <li>
+                                <Link to="/movies#trending" className="text-gray-400 hover:text-white transition">Movies</Link>
+                            </li>
+                            <li>
+                                <Link to="/tvshow#trending" className="text-gray-400 hover:text-white transition">TV Shows</Link>
+                            </li>
+                            <li>
+                                <Link to="/saved#" className="text-gray-400 hover:text-white transition">My Saved</Link>
+                            </li>
+                        </ul>
+                    </div>
+
                     <div>
                         <h3 className="text-white font-bold text-lg mb-2">Get Help</h3>
                         <ul className="space-y-2 text-sm">
@@ -54,7 +80,6 @@ export default function Footer() {
                         </ul>
                     </div>
 
-                    {/* Follow Us */}
                     <div>
                         <h3 className="text-white font-bold text-lg mb-4">Follow Us</h3>
                         <div className="flex gap-4">
@@ -74,14 +99,10 @@ export default function Footer() {
                     </div>
                 </div>
 
-                {/* Divider */}
-                <div className="border-t border-gray-700 pt-8">
-                    <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
-                        <p className="flex items-center gap-1 mb-4 md:mb-0">
+                <div className=" pt-4">
+                        <p className="flex items-center gap-1 mb-4 md:mb-0 uppercase">
                             &copy; {currentYear} Ndopflix. All rights reserved.
                         </p>
-                        <p className="text-xs">Made with <span className="text-red-500">♥</span> for movie lovers</p>
-                    </div>
                 </div>
             </div>
         </footer>

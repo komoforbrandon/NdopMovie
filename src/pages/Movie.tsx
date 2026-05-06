@@ -63,8 +63,8 @@ export default function Movie() {
   ];
 
   return (
-    <main className="min-h-screen bg-(--bg) px-4 pt-18 pb-19 text-(--text) md:px-8 md:pt-3 md:pb-12">
-      <div className="mx-auto flex max-w-7xl flex-col gap-3">
+    <main className="min-h-screen bg-(--bg) px-4 pt-18 pb-19 text-(--text) md:px-0 md:pt-0 md:pb-12">
+      <div className="mx-auto flex max-w-full flex-col gap-3">
         {searchTerm ? (
           <VideoCard
             title={`Search Results for "${searchTerm}"`}

@@ -38,8 +38,8 @@ export default function TVShow() {
   });
 
   return (
-    <main className="min-h-screen bg-(--bg) px-4 pt-18 pb-19 text-(--text) md:px-8 md:pt-3 md:pb-12">
-      <div className="mx-auto flex max-w-7xl flex-col gap-3">
+    <main className="min-h-screen bg-(--bg) px-4 pt-18 pb-19 text-(--text) md:px-0 md:pt-0 md:pb-12">
+      <div className="mx-auto flex flex-col gap-3">
         {searchTerm ? (
           <VideoCard
             title={`TV Search Results for "${searchTerm}"`}
