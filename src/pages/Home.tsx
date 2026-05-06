@@ -49,16 +49,16 @@ export default function Home() {
   if(isMovieSearchLoading || isTvSearchLoading || isTrendingMoviesLoading || isTrendingTvShowsLoading) {
     return (
       <main className="min-h-screen bg-(--bg) px-0 pt-14 pb-16 text-(--text) md:px-8 md:pt-3 md:pb-12">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3">
+        <div className="mx-auto flex max-w-full flex-col gap-3">
           <Loader title="Loading home page" badge="home" />
         </div>
       </main>
     )
   }
-
+ 
   return (
-    <main className="min-h-screen bg-(--bg) px-0 pt-14 pb-16 text-(--text) md:px-8 md:pt-3 md:pb-12">
-      <div className="mx-auto flex max-w-7xl flex-col gap-3">
+    <main className="min-h-screen bg-(--bg) px-0 pt-14 pb-16 text-(--text) md:pt-0 md:pb-12">
+      <div className="mx-auto flex max-w-full flex-col gap-3">
         {searchTerm ? (
           <>
             {isMovieSearchLoading ? (
@@ -89,7 +89,7 @@ export default function Home() {
           </>
         ) : (
           <>
-            <section className="rounded-2xl bg-(--bg) text-(--text)">
+            <section className="m-0 bg-(--bg) text-(--text)">
               <div className="">
                 {/* <span className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] border border-slate-900/10 dark:bg-slate-700/8">
               <Sparkles size={14} />

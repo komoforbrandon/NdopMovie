@@ -7,7 +7,7 @@ import {
   FetchtrendingTvShows,
   FetchTvShowDetails,
 } from "../service/api";
-import { Star, Download, Tv, Play, Film, Clock3, Globe } from "lucide-react";
+import { Star, Download, Tv, Play, Film, Clock3, InfoIcon } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import type { MediaDetails } from "../types/type";
 
@@ -57,9 +57,10 @@ export default function HeroSection({
 
   const item: MediaDetails | null = movieDetails ?? currentMovie ?? null;
 
+  console.log("Details", trendingMovies)
   return (
     <div className="static inset-0 z-100 flex items-center justify-center bg-slate-950/10 backdrop-blur-sm md:h-fit md:w-full md:rounded-md">
-      <div className="relative h-68 w-full overflow-hidden bg-(--bg) md:h-fit md:w-full rounded-sm md:rounded-md">
+      <div className="relative h-68 w-full overflow-hidden bg-(--bg) md:h-fit md:w-full rounded-sm md:rounded-none">
         {item?.backdrop_path ? (
           <div className="relative h-68 w-full overflow-hidden md:h-140">
             <img
@@ -71,7 +72,7 @@ export default function HeroSection({
               alt={item.title ?? item.name ?? "Untitled"}
               className="h-full w-full object-cover"
             />
-            <div className="absolute inset-0 bg-linear-to-t from-(--bg) via-slate-950/30 to-transparent " />
+            <div className="absolute inset-0 bg-linear-to-t from-(--bg) via-gray-950/60 to-transparent " />
           </div>
         ) : null}
 
@@ -79,12 +80,29 @@ export default function HeroSection({
           <div className="flex flex-col gap-6 md:flex-col">
             <div className="absolute left-4 bottom-4 w-auto md:left-8 md:bottom-12 md:w-full">
               <div className="flex flex-row h-80 items-end justify-start gap-4">
-                <img
-                  src={`${item?.poster_path ? `${imageBaseUrl}${item.poster_path}` : failImage}`}
-                  alt={item?.title ?? item?.name ?? "Untitled"}
-                  className="w-30 rounded-3xl object-cover shadow-lg md:w-60"
-                />
-                <div className="m-2">
+                <div
+                  className="w-full rounded-3xl  md:w-1/2 md:h-full"
+                >
+                  <h1 className="font-extrabold text-xl md:text-5xl text-white">
+                    {item?.title ?? item?.name ?? "Untitled"}
+                  </h1>
+                  <p className="mt-1 text-md hidden md:block text-white md:text-lg">
+                    {item?.overview} 
+                  </p>
+                  <div className="flex gap-4 py-4">
+                    <button 
+                    onClick={()=>setModalIsOpen(true)}
+                    className="flex gap-2  items-center rounded-md px-6 py-3 bg-white cursor-pointer">
+                      <Play size={20} fill="black"/>
+                      Play  
+                    </button>
+                    <button className="px-6 py-3 flex gap-2 items-center rounded-md bg-gray-700 text-white cursor-pointer">
+                     <InfoIcon size={20} color="gray" fill="white" />
+                      More Info
+                    </button>
+                  </div>
+                  </div>
+                <div className="m-2 hidden">
                   <div>
                     <h2 className="text-[25px] font-bold  md:text-4xl text-blue-500/70">
                       {item?.title ?? item?.name ?? "Untitled"}
@@ -96,29 +114,8 @@ export default function HeroSection({
                     ) : null}
                   </div>
 
-                  <div className="flex flex-wrap gap-3 text-sm mt-1 text-(--text)">
-                    {item?.runtime ? (
-                      <span className="items-center gap-1 font-medium rounded-full border border-(--border) px-3 py-1 hidden md:inline-flex">
-                        <Clock3 size={16} />
-                        {Math.floor(item.runtime / 60)}h {item.runtime % 60}m
-                      </span>
-                    ) : null}
 
-                    {item?.spoken_languages?.length ? (
-                      <span className="items-center gap-1 rounded-full border border-(--border) px-3 py-1 hidden md:inline-flex">
-                        {item?.spoken_languages[0].english_name}
-                      </span>
-                    ) : null}
-
-                    {item?.production_countries?.length ? (
-                      <span className="items-center gap-1 rounded-full border border-(--border) px-3 py-1 hidden md:inline-flex">
-                        <Globe size={16} />
-                        {item?.production_countries[0].name}
-                      </span>
-                    ) : null}
-                  </div>
-
-                  <div className="flex flex-wrap items-center gap-3 mt-1 text-sm text-(--text)">
+                  <div className="flex-wrap items-center gap-3 mt-1 text-sm text-(--text) hidden">
                     <span
                       onClick={() => setModalIsOpen(true)}
                       className="inline-flex items-center gap-1 rounded-full cursor-pointer bg-blue-500/10 py-1 px-2 font-medium text-blue-500 md:py-2 md:px-3"
