@@ -92,7 +92,7 @@ export default function HeroSection({
                   <div className="flex gap-4 py-4">
                     <button 
                     onClick={()=>setModalIsOpen(true)}
-                    className="flex gap-2  items-center rounded-md px-6 py-3 bg-white cursor-pointer">
+                    className="flex gap-2  items-center rounded-md px-6 py-3 bg-white cursor-pointer text-black">
                       <Play size={20} fill="black"/>
                       Play  
                     </button>
